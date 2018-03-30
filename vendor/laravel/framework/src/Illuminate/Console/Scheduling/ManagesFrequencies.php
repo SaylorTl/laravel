@@ -49,6 +49,8 @@ trait ManagesFrequencies
      * @param  string  $startTime
      * @param  string  $endTime
      * @return \Closure
+     *
+     * php  /var/www/html/laravel/artisan command:name
      */
     private function inTimeInterval($startTime, $endTime)
     {

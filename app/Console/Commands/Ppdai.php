@@ -25,6 +25,8 @@ class Ppdai extends Command
     var $accessToken ="3e0ac8a3-70b9-4488-bfc8-5ab3149cf8ce";//我的
     var $cache;
     var $client;
+    var $finish;
+    var $PageIndex;
     public function __construct()
     {
         parent::__construct();
@@ -38,8 +40,14 @@ class Ppdai extends Command
      */
     public function handle()
     {
-        //
-        $this->getLoanList();
+        $this->finish = true;
+        $this->PageIndex = 1;
+        do{
+            $this->getLoanList();
+            $this->pp_log("查询第". $this->PageIndex."页\n",0);
+            $this->PageIndex ++;
+            sleep(3);//等待时间，进行下一次操作。
+        }while(!$this->finish);
     }
 
     public function pp_log($str,$bid=null,$creditcode=null){
@@ -68,6 +76,7 @@ class Ppdai extends Command
         $aviLoan = array();
         if(empty($result['LoanInfos'])){
             $this->pp_log('查询结果为空','123');
+            $this->finish = false;
             return;
         }
         foreach($result['LoanInfos'] as $key=>$value){
