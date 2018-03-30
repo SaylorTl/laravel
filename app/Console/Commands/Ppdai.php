@@ -176,7 +176,10 @@ class Ppdai extends Command
         if($owinglimit>0){
 //成功还款次数/借款次数， 如果大于一定值，则表示前面的还款比较正常
 //该参数非常重要，用于判断进行刷信用的情况
-            $r = $LoanInfo['NormalCount']/$LoanInfo['SuccessCount'];
+            $r = 0;
+            if($LoanInfo['SuccessCount']){
+                $r = $LoanInfo['NormalCount']/$LoanInfo['SuccessCount'];
+            }
             $bidAmount=1;
             if($owing<=$owinglimit){
                 $ro = $owing/$owinglimit;	//欠款和额度的比例
