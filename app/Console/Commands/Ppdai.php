@@ -158,13 +158,10 @@ class Ppdai extends Command
         $repayCountRatio = $this->getRepayCountRatio($LoanInfo);
         $owingRatio =$this-> getOwingRatio($LoanInfo);
 // //以前分别是5.5 和 0.85
-        if($LoanInfo['CreditCode']=='AA'){
-            return 100;
+        if($LoanInfo['HighestDebt']>=13000 && ($owingRatio>1)){
+            $this->pp_log('比历史最高负债高，有点怕怕~'.($LoanInfo['Amount']+ $LoanInfo['OwingAmount']).'/'.$LoanInfo['HighestDebt'],$LoanInfo['ListingId'],$LoanInfo['CreditCode']);
+            return 0;
         }
-// if($LoanInfo['HighestDebt']>=13000 && ($owingRatio>1)){
-// $this->pp_log('比历史最高负债高，有点怕怕~'.($LoanInfo['Amount']+ $LoanInfo['OwingAmount']).'/'.$LoanInfo['HighestDebt'],$LoanInfo['ListingId'],$LoanInfo['CreditCode']);
-// return 0;
-// }
         $owinglimit = $this->getCreditLimit($LoanInfo);
         if($owinglimit<=0){
             return 0;
@@ -260,6 +257,11 @@ class Ppdai extends Command
             $this->pp_log('未完成学历认证',$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         };	//学历认证的占比1/3
+
+        if (!($loaninfo['StudyStyle']=="普通" ||$loaninfo['StudyStyle']=="普通全日制") && strpos($loaninfo['EducationDegree'],"本科") ==false) {
+            $this->pp_log('非全日制本科学历',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            return 0;
+        }
         $owing = $loaninfo['Amount'] + $loaninfo['OwingAmount'];	//如果借款成功后的待还
         $strictflag=false;	//对与很好的标
         if($loaninfo['Months']==6 && ($loaninfo['CreditCode'] == 'D'||$loaninfo['CreditCode'] == 'C')){
