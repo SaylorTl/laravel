@@ -1,32 +1,52 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
-use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 use Predis;
 use App\libraries\OpenapiClient as OpenapiClient;
 
-class IndexController extends Controller
+class Ppdai extends Command
 {
-    //$accessToken = "76b51c39-b62c-4a9e-9cac-d417b8afc013";//老姐的
-    var $accessToken ="c221676a-5eb6-4a3c-bc2c-89a4999c8ae8";//我的
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'command:name';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    var $accessToken ="3e0ac8a3-70b9-4488-bfc8-5ab3149cf8ce";//我的
     var $cache;
     var $client;
     public function __construct()
     {
+        parent::__construct();
         $this->client = new OpenapiClient();
         $this->cache  = new Predis\Client();
     }
-    public function index(){
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        //
         $this->getLoanList();
     }
-
 
     public function pp_log($str,$bid=null,$creditcode=null){
         $now = date("Y-m-d H:i:s");
         echo "($now):".$creditcode."标号".$bid.$str."\n";
         $day = date("Y-m-d");
-        file_put_contents(dirname(dirname(dirname(__DIR__)))."\\storage\\logs\\".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
+        file_put_contents(dirname(dirname(dirname(__DIR__)))."/storage/logs/".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
     }
 
     /*新版投标列表接口（默认每页2000条）*/
@@ -55,11 +75,16 @@ class IndexController extends Controller
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
+                $bidurl = "https://openapi.ppdai.com/invest/BidService/Bidding";
                 $this->pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $req = '{"ListingId": '.$value['ListingId'].',"Amount":300,"UseCoupon":"true"}';
-                $res = json_decode($this->client->send($url, $req,$this->accessToken),true);
+                $req = '{"ListingId": '.$value['ListingId'].',"Amount":100,"UseCoupon":"true"}';
+                $res = json_decode($this->client->send($bidurl, $req,$this->accessToken),true);
                 if($res['Result']!= 0){
                     $this->pp_log($res['Result'].$res['ResultMessage'],$res['ListingId']);
+                    continue;
+                }
+                if(!$res){
+                    $this->pp_log("连线中断",$res['ListingId']);
                     continue;
                 }
                 $this->pp_log(" ".$value['CreditCode']."级标的投资成功",$value['ListingId']);
@@ -371,5 +396,4 @@ class IndexController extends Controller
         if($loaninfo['SuccessCount']>0) $repayRatio= $loaninfo['NormalCount']/$loaninfo['SuccessCount'];
         return $repayRatio;
     }
-
 }
