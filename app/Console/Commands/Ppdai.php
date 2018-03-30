@@ -96,12 +96,14 @@ class Ppdai extends Command
             }
             $aviLoan[]=$value['ListingId'];
         }
-
+        if(!$aviLoan){
+            $this->pp_log("筛选出符合条件标的为空",00);
+        }
         $temp = array();
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
             $this->cache->setex("ppid".$v,900,1);
-            if(($k % 9)==0 && $k>0){
+            if(($k % 9)==0 && $k>=0){
                 $bidList = $this->getLoanInfo($temp);
                 if(1 == $bidList['Result'] ){
                     $this->doBid($bidList['LoanInfos']);
