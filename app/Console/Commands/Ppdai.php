@@ -26,7 +26,7 @@ class Ppdai extends Command
     var $cache;
     var $client;
     var $finish;
-    var $PageIndex;
+    var $PageIndex =1;
     public function __construct()
     {
         parent::__construct();
@@ -41,7 +41,6 @@ class Ppdai extends Command
     public function handle()
     {
         $this->finish = true;
-        $this->PageIndex = 1;
         do{
             $this->pp_log("查询第". $this->PageIndex."页\n",0);
             $this->PageIndex ++;
@@ -142,7 +141,7 @@ class Ppdai extends Command
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
                     $this->pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
-                    $request = '{"ListingId": '.$bv['ListingId'].',"Amount": '.$amount.',"UseCoupon":"true"}';
+                    $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
                     $result = json_decode($this->client->send($url, $request,$this->accessToken),true);
                     if($result['Result']!= 0){
                         $this->pp_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
