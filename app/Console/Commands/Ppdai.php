@@ -25,7 +25,7 @@ class Ppdai extends Command
     var $accessToken ="3e0ac8a3-70b9-4488-bfc8-5ab3149cf8ce";//我的
     var $cache;
     var $client;
-    var $finish;
+    var $finish = true;
     var $PageIndex =1;
     public function __construct()
     {
@@ -40,13 +40,12 @@ class Ppdai extends Command
      */
     public function handle()
     {
-        $this->finish = true;
         do{
             $this->pp_log("查询第". $this->PageIndex."页\n",0);
             $this->PageIndex ++;
             $this->getLoanList();
             sleep(3);//等待时间，进行下一次操作。
-        }while(!$this->finish);
+        }while($this->finish);
     }
 
     public function pp_log($str,$bid=null,$creditcode=null){
