@@ -71,7 +71,7 @@ class Ppdai extends Command
             return;
         }
         foreach($result['LoanInfos'] as $key=>$value){
-            if($value['Rate']<10 || $value['Months']>12){
+            if($value['Rate']<12 || $value['Months']>12){
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
