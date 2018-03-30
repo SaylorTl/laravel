@@ -14,7 +14,8 @@ class IndexController extends Controller
             'port' => 6379,
             'database' => 15,
         );
-        $client = new Predis\Client($single_server + array('read_write_timeout' => 0));
+
+        $client  = new Predis\Client($single_server);
         $client->set('foo', 'bar');
         $client->get('foo');
         print_r($client);exit;
