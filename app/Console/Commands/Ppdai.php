@@ -109,7 +109,7 @@ class Ppdai extends Command
         $temp = array();
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
-            $this->cache->setex("ppid".$v,900,1);
+            $this->cache->setex("ppid".$v,7200,1);
             if(($k % 9)==0 && $k>=0){
                 $bidList = $this->getLoanInfo($temp);
                 if(1 == $bidList['Result'] ){
