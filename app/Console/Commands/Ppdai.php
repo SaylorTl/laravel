@@ -230,6 +230,8 @@ class Ppdai extends Command
         }
         return $bidAmount;
     }
+
+
     /**flag为true表示是否计算其他人投标的影响*/
     public function getCreditLimit($loaninfo){
 //至少要认证身份证和电话
@@ -258,9 +260,12 @@ class Ppdai extends Command
             return 0;
         };	//学历认证的占比1/3
 
-        if (!($loaninfo['StudyStyle']=="普通" ||$loaninfo['StudyStyle']=="普通全日制") && strpos($loaninfo['EducationDegree'],"本科") ==false) {
-            $this->pp_log('非全日制本科学历',$loaninfo['ListingId'],$loaninfo['CreditCode']);
-            return 0;
+        //对于第一次借贷的必须是本科学历
+        if($loaninfo['SuccessCount'] == 0){
+            if (!($loaninfo['StudyStyle']=="普通" ||$loaninfo['StudyStyle']=="普通全日制") && strpos($loaninfo['EducationDegree'],"本科") ==false) {
+                $this->pp_log('非全日制本科学历',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+                return 0;
+            }
         }
         $owing = $loaninfo['Amount'] + $loaninfo['OwingAmount'];	//如果借款成功后的待还
         $strictflag=false;	//对与很好的标
@@ -321,13 +326,13 @@ class Ppdai extends Command
 //成功还款次数/借款次数， 如果大于一定值，则表示前面的还款比较正常
 //该参数非常重要，用于判断通过全额的提前还款进行刷信用的情况
 //如果进行全额本息的提前还款并不会导致异常
-// if($loaninfo['SuccessCount'] >0){
-// $r = ($loaninfo['NormalCount'])/$loaninfo['SuccessCount'];
-// if($r<3){
-// $this->pp_log('小贼，涉嫌刷信誉',$loaninfo['ListingId']);
-// return 0;
-// }
-// }
+        if($loaninfo['SuccessCount'] >0){
+            $r = ($loaninfo['NormalCount'])/$loaninfo['SuccessCount'];
+            if($r<3){
+                $this->pp_log('小贼，涉嫌刷信誉',$loaninfo['ListingId']);
+                return 0;
+            }
+        }
 //计算可能的
         $owinglimit = 0;
         if ($loaninfo['CertificateValidate'] == 1 && $loaninfo['StudyStyle'] != null) {
