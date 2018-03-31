@@ -41,10 +41,10 @@ class OpenapiClient{
 	 * @param unknown $data
 	 * @param string $accesstoken
 	 */
-    public function send($url, $request, $accesstoken = '') {
+    public function send($url, $request, $accesstoken = '',$time = 5) {
 		$appid = config('app.appid');
 		$appPrivateKey = config('app.appPrivateKey');
-		return Http::SendRequest ( $url, $request, $appid, $accesstoken );
+		return Http::SendRequest ( $url, $request, $appid, $accesstoken,$time );
 	}
 }
 

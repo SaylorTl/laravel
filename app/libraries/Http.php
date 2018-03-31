@@ -30,7 +30,7 @@ class http{
         return $result;
     }
 // 包装好的发送请求函数
-    public static function SendRequest ( $url, $request, $appId, $accessToken ){
+    public static function SendRequest ( $url, $request, $appId, $accessToken,$time=5 ){
         $curl = curl_init ( $url );
 
         $timestamp = gmdate ( "Y-m-d H:i:s", time ()); // UTC format
@@ -52,6 +52,7 @@ class http{
         curl_setopt ( $curl, CURLOPT_POST, 1 );
         curl_setopt ( $curl, CURLOPT_POSTFIELDS, $request );
         curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt($curl, CURLOPT_TIMEOUT, $time);
         $result = curl_exec ( $curl );
         curl_close ( $curl );
         return $result;

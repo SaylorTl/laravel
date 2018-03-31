@@ -66,7 +66,7 @@ class Ppdai extends Command
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
-        $result = json_decode($this->client->send($url, $request,$this->accessToken),true);
+        $result = json_decode($this->client->send($url, $request,$this->accessToken,5),true);
         if($result['Result'] !== 1){
             $this->pp_log($result['ResultMessage']);
             return;
@@ -85,7 +85,7 @@ class Ppdai extends Command
                 $bidurl = "https://openapi.ppdai.com/invest/BidService/Bidding";
                 $this->pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
                 $req = '{"ListingId": '.$value['ListingId'].',"Amount":100,"UseCoupon":"true"}';
-                $res = json_decode($this->client->send($bidurl, $req,$this->accessToken),true);
+                $res = json_decode($this->client->send($bidurl, $req,$this->accessToken,2),true);
                 if($res['Result']!= 0){
                     $this->pp_log($res['Result'].$res['ResultMessage'],$res['ListingId']);
                     continue;
@@ -125,7 +125,7 @@ class Ppdai extends Command
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchListingInfos";
         $aviLoanStr = implode(",",$aviLoan);
         $request = '{"ListingIds": ['.$aviLoanStr.']}';
-        $result = json_decode($this->client->send($url, $request,$this->accessToken),true);
+        $result = json_decode($this->client->send($url, $request,$this->accessToken,3),true);
         if($result['Result']!==1){
             $this->pp_log($result['ResultMessage']);
             return array('Result'=>0);
@@ -141,7 +141,7 @@ class Ppdai extends Command
                 if($amount >0){
                     $this->pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
                     $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
-                    $result = json_decode($this->client->send($url, $request,$this->accessToken),true);
+                    $result = json_decode($this->client->send($url, $request,$this->accessToken,2),true);
                     if($result['Result']!= 0){
                         $this->pp_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
                         continue;
