@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
 use Predis;
+use App\Jobs\DoBid;
 
 class GetLoanInfo implements ShouldQueue
 {

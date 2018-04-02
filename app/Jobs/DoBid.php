@@ -39,8 +39,6 @@ class DoBid implements ShouldQueue
 
     public function doBid($bv){
         if($bv){
-            print_r(21321);
-            print_r("aa:".$bv);exit;
             /*投标接口*/
             $url = "https://openapi.ppdai.com/invest/BidService/Bidding";
             pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);

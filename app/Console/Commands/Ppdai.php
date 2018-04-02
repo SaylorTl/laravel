@@ -7,6 +7,7 @@ use Predis;
 use App\libraries\OpenapiClient as OpenapiClient;
 use App\Jobs\GetLoanInfo;
 use App\Jobs\GetLoanList;
+use App\Jobs\DoBid;
 
 
 class Ppdai extends Command
@@ -80,11 +81,10 @@ class Ppdai extends Command
                 pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
-            if($value['Rate']<12 || $value['Months']>12){
+            if($value['Rate']<12|| $value['Months']>12){
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
-                print_r($value);
                 $this->cache->setex("ppid".$value['ListingId'],86400,1);
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
                 $this->dispatch((new DoBid($value))->onQueue('queues:DoBid'));
