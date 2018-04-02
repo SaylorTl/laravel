@@ -14,6 +14,8 @@ class GetLoanList implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $client;
+    public $cache;
     /**
      * Create a new job instance.
      *
