@@ -13,17 +13,17 @@ class DoBid implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-     public $bid;
+     public $bv;
     public $client;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($bid)
+    public function __construct($bv)
     {
         $this->client = new OpenapiClient();
-        $this->bid = $bid;
+        $this->bv = $bv;
     }
 
     /**
@@ -33,22 +33,22 @@ class DoBid implements ShouldQueue
      */
     public function handle()
     {
-        $this->doBid($this->bid);
+        $this->doBid($this->bv);
         //
     }
 
-    public function doBid($bid){
-        if($bid){
+    public function doBid($bv){
+        if($bv){
             /*投标接口*/
             $url = "https://openapi.ppdai.com/invest/BidService/Bidding";
-            pp_log(" ".$bid['CreditCode']."开始投标",$bid['ListingId']);
-            $request = '{"ListingId": '.$bid['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
+            pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
+            $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
             $result = json_decode($this->client->send($url, $request,config('app.accessToken'),5),true);
             if($result['Result']!= 0){
                 pp_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
                 return;
             }
-            pp_log(" ".$bid['CreditCode']."级标的投资成功",$bid['ListingId']);
+            pp_log(" ".$bv['CreditCode']."级标的投资成功",$bv['ListingId']);
         }
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
+use Predis;
 
 class GetLoanInfo implements ShouldQueue
 {
@@ -24,6 +25,7 @@ class GetLoanInfo implements ShouldQueue
     {
         $this->client = new OpenapiClient();
         $this->aviList = $aviLoan;
+        $this->cache  = new Predis\Client();
     }
 
     /**
@@ -37,8 +39,9 @@ class GetLoanInfo implements ShouldQueue
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
                 $amount = $this->getBidAmount($bv);
+                $this->cache->setex("ppid".$bv['ListingId'],86400,1);
                 if($amount >0){
-                    $this->dispatch((new DoBid($bidList['LoanInfos']))->onQueue('queues:DoBid'));
+                    $this->dispatch((new DoBid($bv))->onQueue('queues:DoBid'));
                 }
             }
         }

@@ -107,7 +107,6 @@ class Ppdai extends Command
         $temp = array();
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
-            $this->cache->setex("ppid".$v,86400,1);
             if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
                 $this->dispatch((new GetLoanInfo($temp))->onQueue('queues:GetLoanInfo'));
             }
