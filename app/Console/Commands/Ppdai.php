@@ -81,7 +81,7 @@ class Ppdai extends Command
                 pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
-            if($value['Rate']<12|| $value['Months']>12){
+            if($value['Rate']<10|| $value['Months']>12){
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
