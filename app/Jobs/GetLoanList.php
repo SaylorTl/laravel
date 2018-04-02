@@ -59,10 +59,11 @@ class GetLoanList implements ShouldQueue
                 pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
-            if($value['Rate']<10 || $value['Months']>12){
+            if($value['Rate']<12 || $value['Months']>12){
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
+                $this->cache->setex("ppid".$value['ListingId'],86400,1);
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
                 $this->dispatch((new DoBid($value))->onQueue('queues:DoBid'));
                 continue;
