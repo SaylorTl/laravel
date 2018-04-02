@@ -16,6 +16,7 @@ class GetLoanInfo implements ShouldQueue
 
     public $aviList;
     public $client;
+    public $cache;
     /**
      * Create a new job instance.
      *
