@@ -41,7 +41,7 @@ class Ppdai extends Command
      */
     public function handle()
     {
-        $this->dispatch((new GetLoanList())->onQueue('queues:GetLoanList'));
+//        $this->dispatch((new GetLoanList())->onQueue('queues:GetLoanList'));
         do{
             pp_log("查询第". $this->PageIndex."页\n",0);
             $this->PageIndex ++;
