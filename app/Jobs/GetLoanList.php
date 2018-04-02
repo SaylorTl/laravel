@@ -1,67 +1,45 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Jobs;
 
-use Illuminate\Console\Command;
-use Predis;
+use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
-use App\Jobs\GetLoanInfo;
+use Predis;
 
-
-class Ppdai extends Command
+class GetLoanList implements ShouldQueue
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'command:name';
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * The console command description.
+     * Create a new job instance.
      *
-     * @var string
+     * @return void
      */
-    protected $description = 'Command description';
-
-    var $cache;
-    var $client;
-    var $finish = true;
-    var $PageIndex =1;
     public function __construct()
     {
-        parent::__construct();
         $this->client = new OpenapiClient();
         $this->cache  = new Predis\Client();
     }
+
     /**
-     * Execute the console command.
+     * Execute the job.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
-        $this->dispatch((new GetLoanList())->onQueue('queues:GetLoanList'));
-        do{
-            pp_log("查询第". $this->PageIndex."页\n",0);
-            $this->PageIndex ++;
-            $this->getLoanList();
-            sleep(3);//等待时间，进行下一次操作。
-        }while($this->finish);
+        $this->getLoanPagel();
     }
-
-
     /*新版投标列表接口（默认每页200条）*/
-    public function getLoanList(){
+    public function getLoanPagel(){
         //定时清理缓存
-        $nowRecodeTime = time();
-        $lastRecodeTime = $this->cache->get("lastRecodeTime") ;
-        if($nowRecodeTime - $lastRecodeTime >3600){
-            $this->cache->set("lastRecodeTime",$nowRecodeTime);
-        }
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
-        $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
+        $request = '{"PageIndex":"1","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,config('app.accessToken'),10),true);
         if($result['Result'] !== 1){
             pp_log("查询失败：".$result['ResultMessage']);
@@ -112,6 +90,4 @@ class Ppdai extends Command
             }
         }
     }
-
-
 }
