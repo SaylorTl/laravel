@@ -77,13 +77,13 @@ class Ppdai extends Command
             return;
         }
         foreach($result['LoanInfos'] as $key=>$value){
-            if($value['Rate']<12 || $value['Months']>12){
+            if($value['Rate']<10 || $value['Months']>12){
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
                 $bidurl = "https://openapi.ppdai.com/invest/BidService/Bidding";
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $req = '{"ListingId": '.$value['ListingId'].',"Amount":100,"UseCoupon":"true"}';
+                $req = '{"ListingId": '.$value['ListingId'].',"Amount":50,"UseCoupon":"true"}';
                 $res = json_decode($this->client->send($bidurl, $req,config('app.accessToken'),2),true);
                 if($res['Result']!= 0){
                     pp_log($res['Result'].$res['ResultMessage'],$res['ListingId']);
