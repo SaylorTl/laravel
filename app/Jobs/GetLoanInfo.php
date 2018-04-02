@@ -169,7 +169,7 @@ class GetLoanInfo implements ShouldQueue
 
         //对于第一次借贷的必须是本科学历
         if($loaninfo['SuccessCount'] == 0){
-            if (!($loaninfo['StudyStyle']=="普通" ||$loaninfo['StudyStyle']=="普通全日制") && strpos($loaninfo['EducationDegree'],"本科") ==false) {
+            if (!($loaninfo['StudyStyle']=="普通" ||$loaninfo['StudyStyle']=="普通全日制") || strpos($loaninfo['EducationDegree'],"本科") ==false) {
                 pp_log('非全日制本科学历',$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
