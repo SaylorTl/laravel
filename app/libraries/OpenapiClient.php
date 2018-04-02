@@ -1,6 +1,5 @@
 <?php
 namespace App\libraries;
-use App\libraries\Http;
 /**
  * 获取授权
  *

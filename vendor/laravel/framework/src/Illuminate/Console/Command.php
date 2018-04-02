@@ -13,10 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
 
 class Command extends SymfonyCommand
 {
-    use Macroable;
+    use Macroable,DispatchesJobs;
 
     /**
      * The Laravel application instance.

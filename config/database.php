@@ -112,6 +112,7 @@ return [
             'host' => env('REDIS_HOST', '118.24.80.47'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
+            'queue' => '{default}',
             'database' => 0,
         ],
 
