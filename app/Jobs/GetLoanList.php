@@ -55,6 +55,10 @@ class GetLoanList implements ShouldQueue
             return;
         }
         foreach($result['LoanInfos'] as $key=>$value){
+            if($this->cache->get("ppid".$value['ListingId'])){
+                pp_log("标号已标记，不再重复查询",$value['ListingId']);
+                continue;
+            }
             if($value['Rate']<10 || $value['Months']>12){
                 continue;
             }
@@ -72,10 +76,6 @@ class GetLoanList implements ShouldQueue
                     continue;
                 }
                 pp_log(" ".$value['CreditCode']."级标的投资成功",$value['ListingId']);
-                continue;
-            }
-            if($this->cache->get("ppid".$value['ListingId'])){
-                pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
             $aviLoan[]=$value['ListingId'];
