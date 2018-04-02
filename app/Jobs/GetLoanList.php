@@ -63,19 +63,8 @@ class GetLoanList implements ShouldQueue
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
-                $bidurl = "https://openapi.ppdai.com/invest/BidService/Bidding";
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $req = '{"ListingId": '.$value['ListingId'].',"Amount":50,"UseCoupon":"true"}';
-                $res = json_decode($this->client->send($bidurl, $req,config('app.accessToken'),2),true);
-                if($res['Result']!= 0){
-                    pp_log($res['Result'].$res['ResultMessage'],$res['ListingId']);
-                    continue;
-                }
-                if(!$res){
-                    pp_log("连线中断",$res['ListingId']);
-                    continue;
-                }
-                pp_log(" ".$value['CreditCode']."级标的投资成功",$value['ListingId']);
+                $this->dispatch((new DoBid($value))->onQueue('queues:DoBid'));
                 continue;
             }
             $aviLoan[]=$value['ListingId'];
