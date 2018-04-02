@@ -107,7 +107,7 @@ class Ppdai extends Command
             $temp[]=$v;
             $this->cache->setex("ppid".$v,86400,1);
             if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
-                $this->dispatch(new GetLoanInfo($temp));
+                $this->dispatch((new GetLoanInfo($temp))->onQueue('GetLoanInfo'));
             }
         }
     }

@@ -38,7 +38,7 @@ class GetLoanInfo implements ShouldQueue
             foreach($bidList['LoanInfos'] as $bk=>$bv){
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
-                    $this->dispatch(new DoBid($bidList['LoanInfos']));
+                    $this->dispatch((new DoBid($bidList['LoanInfos']))->onQueue('DoBid'));
                 }
             }
         }
