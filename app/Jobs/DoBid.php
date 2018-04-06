@@ -8,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
+use Predis;
+
 
 class DoBid implements ShouldQueue
 {
@@ -15,6 +17,7 @@ class DoBid implements ShouldQueue
 
     public $bv;
     public $client;
+    public $cache;
     /**
      * Create a new job instance.
      *
@@ -24,6 +27,7 @@ class DoBid implements ShouldQueue
     {
         $this->client = new OpenapiClient();
         $this->bv = $bv;
+        $this->cache  = new Predis\Client();
     }
 
     /**
@@ -40,6 +44,9 @@ class DoBid implements ShouldQueue
     public function doBid($bv){
         if($bv){
             /*投标接口*/
+            if(!$this->cache->get("ppid".$bv['ListingId'])){
+                $this->cache->setex("ppid".$bv['ListingId'],86400,1);
+            }
             $url = "https://openapi.ppdai.com/invest/BidService/Bidding";
             pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
             $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';

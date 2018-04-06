@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
 use Predis;
-use App\Jobs\DoBid;
+
 
 class GetLoanInfo implements ShouldQueue
 {
@@ -40,8 +40,8 @@ class GetLoanInfo implements ShouldQueue
         $bidList =  $this->getLoanInfo($this->aviList);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
-                $amount = $this->getBidAmount($bv);
                 $this->cache->setex("ppid".$bv['ListingId'],86400,1);
+                $amount = $this->getBidAmount($bv);
                 if($amount >0){
                     $this->dispatch((new DoBid($bv))->onQueue('queues:DoBid'));
                 }
