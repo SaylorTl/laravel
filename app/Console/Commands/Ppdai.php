@@ -78,7 +78,7 @@ class Ppdai extends Command
         }
         foreach($result['LoanInfos'] as $key=>$value){
             if($this->cache->get("ppid".$value['ListingId'])){
-                pp_log("标号已标记，不再重复查询",$value['ListingId']);
+//                pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
             if($value['Rate']<12|| $value['Months']>12){
