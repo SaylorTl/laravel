@@ -91,6 +91,7 @@ class Ppdai extends Command
                 continue;
             }
 
+
             $aviLoan[]=$value['ListingId'];
         }
         if(!$aviLoan){

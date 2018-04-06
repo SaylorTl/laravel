@@ -63,6 +63,7 @@ class GetLoanList implements ShouldQueue
             if($value['Rate']<10 || $value['Months']>12){
                 continue;
             }
+            
             if($value['CreditCode'] == 'AA'){
                 $this->cache->setex("ppid".$value['ListingId'],86400,1);
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
