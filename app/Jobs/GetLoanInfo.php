@@ -70,7 +70,7 @@ class GetLoanInfo implements ShouldQueue
         $repayCountRatio = $this->getRepayCountRatio($LoanInfo);
         $owingRatio =$this-> getOwingRatio($LoanInfo);
 // //以前分别是5.5 和 0.85
-        if($LoanInfo['HighestDebt']>=13000 && ($owingRatio>1)){
+        if($LoanInfo['HighestDebt']>=15000 && ($owingRatio>1)){
             pp_log('比历史最高负债高，有点怕怕~'.($LoanInfo['Amount']+ $LoanInfo['OwingAmount']).'/'.$LoanInfo['HighestDebt'],$LoanInfo['ListingId'],$LoanInfo['CreditCode']);
             return 0;
         }
@@ -85,7 +85,7 @@ class GetLoanInfo implements ShouldQueue
 //投资期限设置,如果只投6个月，允许这行
 //	 if(loan.month>=12) return 0;	 //12个月不投，只投6个月
 //单笔金额不能太大
-        if($LoanInfo['Amount']>config('app.AmountLimit') || $LoanInfo['Amount']>=10000) return 0;
+        if($LoanInfo['Amount']>config('app.AmountLimit') || $LoanInfo['Amount']>=12000) return 0;
 //待还金额不能太大
         if($LoanInfo['OwingAmount']>config('app.OwingAmountLimit') || config('app.OwingAmount')>=15000) return 0;
         $bidAmount=0;	//预期投资的金额
