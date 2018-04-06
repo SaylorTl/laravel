@@ -236,7 +236,7 @@ return [
 //	static boolean pei10Flag = true;	//是否投10%的1月标
 //	static double peiRateLimit = 12.0f; //12.5f;	//陪标的最低投标利率
 
-    'CreditLevel'=>true,	//投标是否限制严格
+    'CreditLevel'=>false,	//投标是否限制严格
 
     'PeiBidAmount' => 500,//除13以上陪标的单笔投资金额
     'CreditBidAmount' => 50,	//信用标投标金额
@@ -253,14 +253,14 @@ return [
     'OverduelessNormalCountPerOne' => 45,	//每多少次允许逾期1次
 
     //单笔金额不能太大(1080个标中<5000:1016个；<4000:953个；<3500:902个；<3000:855个，<2000:681个；<1000:314个
-    'AmountLimit' => 8000,	//曾经设置为11000, 8000，5000
+    'AmountLimit' => 15000,	//曾经设置为11000, 8000，5000
 
     //待还金额不能太大
-    'OwingAmountLimit' => 7000, //曾经设置为10000， 9000
+    'OwingAmountLimit' => 15000, //曾经设置为10000， 9000
 
     //最大金额
-    'MaxOwingLimit6'  =>14000,	//6个月的最大允许的待还金额，最大测试过14000
-    'MaxOwingLimit12' =>10000,	//12个月最大允许的待还金额
+    'MaxOwingLimit6'  =>15000,	//6个月的最大允许的待还金额，最大测试过14000
+    'MaxOwingLimit12' =>15000,	//12个月最大允许的待还金额
 
     //请替换自己的appid和appPrivateKey, 申请地址：http://open.ppdai.com/
     'appid'=>'20da2fc969914505977e5c8d58a171dd',
