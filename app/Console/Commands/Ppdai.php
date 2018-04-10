@@ -46,7 +46,7 @@ class Ppdai extends Command
         do{
             pp_log("查询第". $this->PageIndex."页\n",0);
             $this->PageIndex ++;
-            $this->dispatch((new GetLoanList())->onQueue('queues:GetLoanList'));
+            $this->dispatch((new GetLoanList())->onQueue('GetLoanList'));
             sleep(5);//等待时间，进行下一次操作。
         }while($this->finish);
     }
@@ -85,7 +85,7 @@ class Ppdai extends Command
             }
             if($value['CreditCode'] == 'AA'){
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $this->dispatch((new DoBid($value))->onQueue('queues:DoBid'));
+                $this->dispatch((new DoBid($value))->onQueue('DoBid'));
                 continue;
             }
 
@@ -99,7 +99,7 @@ class Ppdai extends Command
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
             if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
-                $this->dispatch((new GetLoanInfo($temp))->onQueue('queues:GetLoanInfo'));
+                $this->dispatch((new GetLoanInfo($temp))->onQueue('GetLoanInfo'));
             }
         }
     }

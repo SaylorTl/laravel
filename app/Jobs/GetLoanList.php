@@ -69,7 +69,7 @@ class GetLoanList implements ShouldQueue
 
             if($value['CreditCode'] == 'AA'){
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $this->dispatch((new DoBid($value))->onQueue('queues:DoBid'));
+                $this->dispatch((new DoBid($value))->onQueue('DoBid'));
                 continue;
             }
             $aviLoan[]=$value['ListingId'];
@@ -81,7 +81,7 @@ class GetLoanList implements ShouldQueue
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
             if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
-                $this->dispatch((new GetLoanInfo($temp))->onQueue('queues:GetLoanInfo'));
+                $this->dispatch((new GetLoanInfo($temp))->onQueue('GetLoanInfo'));
             }
         }
     }

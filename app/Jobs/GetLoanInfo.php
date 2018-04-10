@@ -43,7 +43,7 @@ class GetLoanInfo implements ShouldQueue
                 $this->cache->setex("ppid".$bv['ListingId'],86400,1);
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
-                    $this->dispatch((new DoBid($bv))->onQueue('queues:DoBid'));
+                    $this->dispatch((new DoBid($bv))->onQueue('DoBid'));
                 }else{
                     pp_log('信用不足！不予投标',$bv['ListingId']);
                 }
