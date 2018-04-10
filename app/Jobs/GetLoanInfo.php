@@ -37,7 +37,6 @@ class GetLoanInfo implements ShouldQueue
      */
     public function handle()
     {
-        print_r(21321);
         $bidList =  $this->getLoanInfo($this->aviList);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
@@ -72,6 +71,9 @@ class GetLoanInfo implements ShouldQueue
         if($owinglimit<=0){
             return 0;
         }
+        $owing = $LoanInfo['Amount'] + $LoanInfo['OwingAmount'];
+        $creditPerNorm = $owing;
+
         $bidAmount=0;	//预期投资的金额
         if($owinglimit>0){
             $bidAmount = 50;

@@ -44,6 +44,10 @@ class GetLoanList implements ShouldQueue
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"1","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,config('app.accessToken'),30),true);
+        if(!$result){
+            pp_log("查询失败：".$result['ResultMessage']);
+            return;
+        }
         if($result['Result'] !== 1){
             pp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
