@@ -37,6 +37,7 @@ class GetLoanInfo implements ShouldQueue
      */
     public function handle()
     {
+        print_r(21321);
         $bidList =  $this->getLoanInfo($this->aviList);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
