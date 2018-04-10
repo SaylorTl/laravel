@@ -48,7 +48,7 @@ class Ppdai extends Command
             $this->PageIndex ++;
             $this->getLoanList();
             sleep(3);//等待时间，进行下一次操作。
-            $this->dispatch((new GetLoanList())->onQueue('queues:GetLoanList'));
+            $this->dispatch((new GetLoanList())->onQueue('queues:GetLoanList')->delay(1000));
         }while($this->finish);
     }
 
