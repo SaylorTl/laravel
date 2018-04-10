@@ -64,7 +64,7 @@ class Ppdai extends Command
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
-        $result = json_decode($this->client->send($url, $request,config('app.accessToken'),10),true);
+        $result = json_decode($this->client->send($url, $request,config('app.accessToken'),15),true);
         if($result['Result'] !== 1){
             pp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
