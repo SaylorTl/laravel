@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
 use Predis;
+use Illuminate\Console\Command as command;
 
 
 class GetLoanInfo implements ShouldQueue
@@ -18,6 +19,7 @@ class GetLoanInfo implements ShouldQueue
     public $aviList;
     public $client;
     public $cache;
+    public $command;
     /**
      * Create a new job instance.
      *
@@ -25,6 +27,7 @@ class GetLoanInfo implements ShouldQueue
      */
     public function __construct($aviLoan)
     {
+        $this->command =new command();
         $this->client = new OpenapiClient();
         $this->aviList = $aviLoan;
         $this->cache  = new Predis\Client();
@@ -43,7 +46,8 @@ class GetLoanInfo implements ShouldQueue
                 $this->cache->setex("ppid".$bv['ListingId'],86400,1);
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
-                    $this->dispatch((new DoBid($bv))->onQueue('DoBid'));
+                    $this->doBid($bv);
+//                    $this->command->dispatch((new DoBid($bv))->onQueue('dobid'));
                 }else{
                     pp_log('信用不足！不予投标',$bv['ListingId']);
                 }
@@ -296,6 +300,24 @@ class GetLoanInfo implements ShouldQueue
         $repayRatio = 0;
         if($loaninfo['SuccessCount']>0) $repayRatio= $loaninfo['NormalCount']/$loaninfo['SuccessCount'];
         return $repayRatio;
+    }
+
+    public function doBid($bv){
+        if($bv){
+            /*投标接口*/
+            if(!$this->cache->get("ppid".$bv['ListingId'])){
+                $this->cache->setex("ppid".$bv['ListingId'],86400,1);
+            }
+            $url = "https://openapi.ppdai.com/invest/BidService/Bidding";
+            pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
+            $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
+            $result = json_decode($this->client->send($url, $request,config('app.accessToken'),5),true);
+            if($result['Result']!= 0){
+                pp_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
+                return;
+            }
+            pp_log(" ".$bv['CreditCode']."级标的投资成功",$bv['ListingId']);
+        }
     }
 
 }
