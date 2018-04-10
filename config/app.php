@@ -249,14 +249,14 @@ return [
 
     //不严格的情况下,35次允许逾期1次，基数45，
     //严格的情况下，45次允许逾期1次，基数60
-    'OverduelessNormalCountBase' => 60,	//允许逾期必须还款次数大于一定数额
-    'OverduelessNormalCountPerOne' => 45,	//每多少次允许逾期1次
+    'OverduelessNormalCountBase' => 45,	//允许逾期必须还款次数大于一定数额
+    'OverduelessNormalCountPerOne' => 30,	//每多少次允许逾期1次
 
     //单笔金额不能太大(1080个标中<5000:1016个；<4000:953个；<3500:902个；<3000:855个，<2000:681个；<1000:314个
     'AmountLimit' => 15000,	//曾经设置为11000, 8000，5000
 
     //待还金额不能太大
-    'OwingAmountLimit' => 15000, //曾经设置为10000， 9000
+    'OwingAmountLimit' => 9000, //曾经设置为10000， 9000
 
     //最大金额
     'MaxOwingLimit6'  =>15000,	//6个月的最大允许的待还金额，最大测试过14000
