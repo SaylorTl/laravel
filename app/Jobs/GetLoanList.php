@@ -41,7 +41,6 @@ class GetLoanList implements ShouldQueue
     }
     /*新版投标列表接口（默认每页200条）*/
     public function getLoanPagel(){
-        pp_log("队列开始执行");
         //定时清理缓存
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
@@ -80,6 +79,7 @@ class GetLoanList implements ShouldQueue
         }
         if(!$aviLoan){
             pp_log("筛选出符合条件标的为空",00);
+            return;
         }
         $temp = array();
         foreach($aviLoan as $k=>$v){

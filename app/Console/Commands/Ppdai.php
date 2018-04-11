@@ -106,6 +106,7 @@ class Ppdai extends Command
         }
         if(!$aviLoan){
             pp_log("筛选出符合条件标的为空",00);
+            return;
         }
         $temp = array();
         foreach($aviLoan as $k=>$v){
