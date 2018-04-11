@@ -60,7 +60,7 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
-            'queue' => 'ppd',
+            'queue' => 'loanlist',
             'retry_after' => 90,
             'block_for' => null,
             'expire'  => 60,

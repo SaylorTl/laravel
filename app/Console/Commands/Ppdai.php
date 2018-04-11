@@ -43,11 +43,13 @@ class Ppdai extends Command
      */
     public function handle()
     {
+
         do{
             pp_log("查询第". $this->PageIndex."页\n",0);
             $this->PageIndex ++;
-//            $this->dispatch((new GetLoanList())->onQueue('loanlist'));
             $this->getLoanList();
+            sleep(10);
+            $this->dispatch((new GetLoanList())->onQueue('loanlist'));
             sleep(10);//等待时间，进行下一次操作。
         }while($this->finish);
     }
@@ -109,7 +111,7 @@ class Ppdai extends Command
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
             if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
-                $this->dispatch((new GetLoanInfo($temp))->onQueue('ppd'));
+                $this->dispatch((new GetLoanInfo($temp))->onQueue('loaninfo'));
             }
         }
     }

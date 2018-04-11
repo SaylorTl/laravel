@@ -41,7 +41,6 @@ class GetLoanList implements ShouldQueue
     }
     /*新版投标列表接口（默认每页200条）*/
     public function getLoanPagel(){
-        print_r(111);
         pp_log("队列开始执行");
         //定时清理缓存
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
@@ -74,7 +73,7 @@ class GetLoanList implements ShouldQueue
 
             if($value['CreditCode'] == 'AA'){
                 pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $this->command->dispatch((new DoBid($value))->onQueue('dobid'));
+                $this->command->dispatch((new DoBid($value)))->onQueue('dobid');
                 continue;
             }
             $aviLoan[]=$value['ListingId'];
@@ -86,7 +85,7 @@ class GetLoanList implements ShouldQueue
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
             if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
-                $this->dispatch((new GetLoanInfo($temp))->onQueue('loaninfo'));
+                $this->dispatch((new GetLoanInfo($temp)))->onQueue("loaninfo");
             }
         }
     }
