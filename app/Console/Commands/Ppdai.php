@@ -43,7 +43,6 @@ class Ppdai extends Command
      */
     public function handle()
     {
-
         do{
             pp_log("查询第". $this->PageIndex."页\n",0);
             $this->PageIndex ++;

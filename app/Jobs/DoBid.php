@@ -38,7 +38,6 @@ class DoBid implements ShouldQueue
     public function handle()
     {
         $this->doBid($this->bv);
-        //
     }
 
     public function doBid($bv){
