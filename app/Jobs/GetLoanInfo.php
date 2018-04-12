@@ -37,6 +37,7 @@ class GetLoanInfo implements ShouldQueue
      */
     public function handle()
     {
+
         $bidList =  $this->getLoanInfo($this->aviList);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
@@ -44,7 +45,7 @@ class GetLoanInfo implements ShouldQueue
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
                     pp_bid_log('筛选成功',$bv['ListingId'],$bv['CreditCode']);
-                    $this->dispatch((new DoBid($bv)))->onQueue("dobid");
+                    (new DoBid($bv))->dispatch($bv)->onQueue("dobid");
                 }else{
                     pp_log('信用不足！不予投标',$bv['ListingId']);
                 }
