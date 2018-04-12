@@ -49,6 +49,7 @@ class DoBid implements ShouldQueue
             }
             $url = "https://openapi.ppdai.com/invest/BidService/Bidding";
             pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
+            pp_bid_log('开始投标',$bv['ListingId'],$bv['CreditCode']);
             $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
             $result = json_decode($this->client->send($url, $request,config('app.accessToken'),5),true);
             if($result['Result']!= 0){
@@ -56,6 +57,7 @@ class DoBid implements ShouldQueue
                 return;
             }
             pp_log(" ".$bv['CreditCode']."级标的投资成功",$bv['ListingId']);
+            pp_bid_log(" ".$bv['CreditCode']."级标的投资成功",$bv['ListingId']);
         }
     }
 }
