@@ -49,8 +49,8 @@ class Ppdai extends Command
             $this->PageIndex ++;
             $this->getLoanList();
             sleep(10);
-            $this->dispatch((new GetLoanList())->onQueue('loanlist'));
-            sleep(10);//等待时间，进行下一次操作。
+       //     $this->dispatchNow((new GetLoanList())->onQueue('loanlist'));
+       //     sleep(10);//等待时间，进行下一次操作。
         }while($this->finish);
     }
 
@@ -88,11 +88,11 @@ class Ppdai extends Command
             return;
         }
         foreach($result['LoanInfos'] as $key=>$value){
-            if($this->cache->get("ppid".$value['ListingId'])){
-//                pp_log("标号已标记，不再重复查询",$value['ListingId']);
+            if($value['Rate']<12|| $value['Months']>12){
                 continue;
             }
-            if($value['Rate']<12|| $value['Months']>12){
+            if($this->cache->get("ppid".$value['ListingId'])){
+//                pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
             if($value['CreditCode'] == 'AA'){
@@ -100,7 +100,6 @@ class Ppdai extends Command
                 $this->dispatch((new DoBid($value))->onQueue('dobid'));
                 continue;
             }
-
 
             $aviLoan[]=$value['ListingId'];
         }
