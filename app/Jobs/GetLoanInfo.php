@@ -94,7 +94,7 @@ class GetLoanInfo implements ShouldQueue
         $owing = $loaninfo['Amount'] + $loaninfo['OwingAmount'];
         $owingRatio =$this-> getOwingRatio($loaninfo);
         //以前分别是5.5 和 0.85
-        if($loaninfo['HighestDebt']>=15000 && ($owingRatio>1)){
+        if($loaninfo['HighestDebt']>=18000 && ($owingRatio>1)){
             pp_log('比历史最高负债高，有点怕怕~'.($loaninfo['Amount']+ $loaninfo['OwingAmount']).'/'.$loaninfo['HighestDebt'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
