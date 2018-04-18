@@ -116,8 +116,9 @@ class Ppdai extends Command
         $temp = array();
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
-            if(($k % 9==0 && $k>=0) || (count($aviLoan)< 9 && $k==count($aviLoan)-1) ){
+            if( count($temp)== 9 ){
                 $this->dispatch((new GetLoanInfo($temp))->onQueue('loaninfo'));
+                $temp = array();
             }
         }
     }
