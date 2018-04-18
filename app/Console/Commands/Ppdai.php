@@ -70,7 +70,13 @@ class Ppdai extends Command
 //            $this->finish = false;
 //            return;
 //        }
+
         if(!$result){
+            pp_log("查询失败：".$result['ResultMessage']);
+            $this->finish = false;
+            return;
+        }
+        if(empty($result['Result'])){
             pp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
