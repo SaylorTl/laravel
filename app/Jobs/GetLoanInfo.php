@@ -132,7 +132,7 @@ class GetLoanInfo implements ShouldQueue
             return 0;
         }
         //超过3次的直接过掉，后面有更严格的要求
-        if($loaninfo['OverdueLessCount']>=5){
+        if($loaninfo['OverdueLessCount']>5){
             pp_log('逾期(1-15)还清次数大于5,'.$loaninfo['OverdueLessCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
