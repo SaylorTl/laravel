@@ -101,11 +101,11 @@ class Ppdai extends Command
 //                pp_log("标号已标记，不再重复查询",$value['ListingId']);
                 continue;
             }
-//            if($value['CreditCode'] == 'AA'){
-//                pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-//                $this->dispatch((new DoBid($value))->onQueue('dobid'));
-//                continue;
-//            }
+            if($value['CreditCode'] == 'AA' && $value['Rate']<11){
+                pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
+                $this->dispatch((new DoBid($value))->onQueue('dobid'));
+                continue;
+            }
 
             $aviLoan[]=$value['ListingId'];
         }
