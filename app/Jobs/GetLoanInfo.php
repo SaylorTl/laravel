@@ -114,7 +114,7 @@ class GetLoanInfo implements ShouldQueue
             return 0;
         }
         //待还金额不能太大
-        if($loaninfo['OwingAmount']>config('app.OwingAmountLimit') && $loaninfo['Amount'] > 6000){
+        if($loaninfo['OwingAmount']>config('app.OwingAmountLimit') && $loaninfo['Amount'] > 10000){
             pp_log('待还金额不能太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
             return 0;
         }
