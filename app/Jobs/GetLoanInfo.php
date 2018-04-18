@@ -59,7 +59,8 @@ class GetLoanInfo implements ShouldQueue
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchListingInfos";
         $aviLoanStr = implode(",",$aviLoan);
         $request = '{"ListingIds": ['.$aviLoanStr.']}';
-        $result = json_decode($this->client->send($url, $request,config('app.accessToken'),5),true);
+        $result = json_decode($this->client->send($url, $request,config('app.accessToken'),10),true);
+        sleep(5);
         if($result['Result']!==1){
             pp_log("获取信息详情失败".$result['ResultMessage']);
             return array('Result'=>0);
