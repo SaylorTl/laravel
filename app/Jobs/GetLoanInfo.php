@@ -109,30 +109,30 @@ class GetLoanInfo implements ShouldQueue
         //if(loan.month>=12) return 0;	 //12个月不投，只投6个月
         //单笔金额不能太大
         if($loaninfo['Amount']>config('app.AmountLimit')){
-            pp_log('单笔金额不能太大',$loaninfo['ListingId']);
+            pp_log('单笔金额不能太大,'.$loaninfo['Amount'],$loaninfo['ListingId']);
             return 0;
         }
         //待还金额不能太大
         if($loaninfo['OwingAmount']>config('app.OwingAmountLimit') && $loaninfo['Amount'] > 6000){
-            pp_log('待还金额不能太大',$loaninfo['ListingId']);
+            pp_log('待还金额不能太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
             return 0;
         }
 
         if($loaninfo['LastSuccessBorrowTime']){
             $time_off = time()-strtotime($loaninfo['LastSuccessBorrowTime']);
             if( $time_off<2592000){
-                pp_log("30天之内不许重复贷款，刚借完又借的资金状况忒差了~淘汰",$loaninfo['ListingId'],$loaninfo['CreditCode']);
+                pp_log(" 30天之内不许重复贷款，刚借完又借的资金状况忒差了~淘汰",$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
         }
         //有超期还款记录的
         if($loaninfo['OverdueMoreCount']>0){
-            pp_log('有超期还款记录',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            pp_log('有超期还款记录,'.$loaninfo['OverdueMoreCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         //超过3次的直接过掉，后面有更严格的要求
         if($loaninfo['OverdueLessCount']>=5){
-            pp_log('逾期(1-15)还清次数大于5',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            pp_log('逾期(1-15)还清次数大于5,'.$loaninfo['OverdueLessCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         //学历的情况
@@ -154,7 +154,7 @@ class GetLoanInfo implements ShouldQueue
         //系统中年龄分布和性别的分布好像关系不大
         //***根据自己的黑名单统计30岁以上借款小额的问题比较大(原来是不能大于32岁）
         if($loaninfo['Age']<22 || $loaninfo['Age']>=38){
-            pp_log('年龄不符合要求',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            pp_log('年龄不符合要求,'.$loaninfo['Age'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         if($loaninfo['Age']>=32 && $owing<=5000){
@@ -210,13 +210,13 @@ class GetLoanInfo implements ShouldQueue
         //成功还款次数/借款次数， 如果大于一定值，则表示前面的还款比较正常
         //该参数非常重要，用于判断通过全额的提前还款进行刷信用的情况
         //如果进行全额本息的提前还款并不会导致异常
-        if($loaninfo['SuccessCount'] >0){
-            $r = ($loaninfo['NormalCount'])/$loaninfo['SuccessCount'];
-            if($r<3){
-                pp_log('小贼，涉嫌刷信誉',$loaninfo['ListingId']);
-                return 0;
-            }
-        }
+//        if($loaninfo['SuccessCount'] >0){
+//            $r = ($loaninfo['NormalCount'])/$loaninfo['SuccessCount'];
+//            if($r<3){
+//                pp_log('小贼，涉嫌刷信誉',$loaninfo['ListingId']);
+//                return 0;
+//            }
+//        }
         //计算可能的
         $owinglimit = 0;
         if ($loaninfo['CertificateValidate'] == 1 && $loaninfo['StudyStyle'] != null) {
