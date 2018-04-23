@@ -6,12 +6,34 @@ namespace App\libraries;
  * @param $appid: 应用ID
  * @param $code
  */
+use Predis;
+
 class OpenapiClient{
 	public function authorize($code) {
 		$appid = config('app.appid');
 		$request = '{"AppID": "'.$appid.'","Code": "'.$code.'"}';
 		$url = "https://ac.ppdai.com/oauth2/authorize";
 		return Http::SendAuthRequest ( $url, $request );
+	}
+
+	public function refresh_access_token() {
+		$this->cache  = new Predis\Client();
+		$accessToken = $this->cache->get("accessToken");
+		if(!$accessToken){
+			$openID = $this->cache->get("openID");
+			if(!$openID){
+				$this->cache->setex("accessToken",518400,config('app.accessToken'));
+				$this->cache->setex("refreshToken",604800,config('app.refreshToken'));
+				$this->cache->setex("openID",604800,config('app.openID'));
+			}
+			$refreshToken = $this->cache->get("refreshToken");
+			$data = json_decode($this->refresh_token($openID,$refreshToken),true);
+			$this->cache->setex("accessToken",518400,$data['AccessToken']);
+			$this->cache->setex("refreshToken",604800,$data['RefreshToken']);
+			$this->cache->setex("openID",604800,$data['OpenID']);
+			$accessToken = $data['AccessToken'];
+		}
+		return $accessToken;
 	}
 
 	/**
@@ -40,8 +62,9 @@ class OpenapiClient{
 	 * @param unknown $data
 	 * @param string $accesstoken
 	 */
-    public function send($url, $request, $accesstoken = '',$time = 5) {
+    public function send($url, $request,$time = 5) {
 		$appid = config('app.appid');
+		$accesstoken = $this->refresh_access_token();
 		$appPrivateKey = config('app.appPrivateKey');
 		return Http::SendRequest ( $url, $request, $appid, $accesstoken,$time );
 	}

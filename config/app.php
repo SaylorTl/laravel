@@ -293,5 +293,6 @@ zJl7AnhoFTwEHtXP2QIDAQAB
 -----END PUBLIC KEY-----',
 
     'accessToken' =>"6c5622bf-fd2f-4ea2-9ca8-1001c1efbde9",//我的
-    'RefreshToken'=>"a5d86bd9-238c-4b2e-bf62-99c063e44ca6"
+    'refreshToken'=>"a5d86bd9-238c-4b2e-bf62-99c063e44ca6",
+    'openID'=>"6a2bc1b9ac814eec97f1237d320c00aa"
 ];
