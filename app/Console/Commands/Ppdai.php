@@ -94,7 +94,7 @@ class Ppdai extends Command
         }
         foreach($result['LoanInfos'] as $key=>$value){
 //            if($value['Rate']<12|| $value['Months']>12){
-            if($value['Rate']<10|| $value['Months']>12){
+            if($value['Rate']<12|| $value['Months']>12){
                 continue;
             }
             if($this->cache->get("ppid".$value['ListingId'])){
