@@ -63,7 +63,7 @@ class Ppdai extends Command
             $this->cache->set("lastRecodeTime",$nowRecodeTime);
         }
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
-        $date = date("Y-m-d H:i:s",time()-3600);
+        $date = date("Y-m-d H:i:s",time()-900);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
         if($this->PageIndex >= 10){
@@ -116,7 +116,7 @@ class Ppdai extends Command
         $temp = array();
         foreach($aviLoan as $k=>$v){
             $temp[]=$v;
-            if( count($temp)== 9 ){
+            if( count($temp)== 9 || (count($aviLoan)<=9 && count($temp)==count($aviLoan))){
                 $this->dispatch((new GetLoanInfo($temp))->onQueue('loaninfo'));
                 $temp = array();
             }
