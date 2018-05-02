@@ -112,14 +112,20 @@ class GetLoanInfo implements ShouldQueue
             return 0;
         }
         //待还金额不能太大
-        if($loaninfo['OwingAmount']>config('app.OwingAmountLimit') && $loaninfo['Amount'] > 10000){
+        if($loaninfo['OwingAmount']>config('app.OwingAmountLimit')){
             pp_log('待还金额不能太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
+            return 0;
+        }
+
+        //待还金额不能太大
+        if($owing>22000){
+            pp_log('负债太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
             return 0;
         }
 
         if($loaninfo['LastSuccessBorrowTime']){
             $time_off = time()-strtotime($loaninfo['LastSuccessBorrowTime']);
-            if( $time_off<604800){
+            if( $time_off<1296000){
                 pp_log(" 30天之内不许重复贷款，刚借完又借的资金状况忒差了~淘汰",$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
