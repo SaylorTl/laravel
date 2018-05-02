@@ -119,7 +119,7 @@ class GetLoanInfo implements ShouldQueue
 
         if($loaninfo['LastSuccessBorrowTime']){
             $time_off = time()-strtotime($loaninfo['LastSuccessBorrowTime']);
-            if( $time_off<1296000){
+            if( $time_off<604800){
                 pp_log(" 30天之内不许重复贷款，刚借完又借的资金状况忒差了~淘汰",$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
