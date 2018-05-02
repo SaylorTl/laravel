@@ -63,7 +63,7 @@ class Ppdai extends Command
             $this->cache->set("lastRecodeTime",$nowRecodeTime);
         }
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
-        $date = date("Y-m-d H:i:s",time()-900);
+        $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
         if($this->PageIndex >=25){
