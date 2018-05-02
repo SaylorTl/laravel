@@ -66,7 +66,7 @@ class Ppdai extends Command
         $date = date("Y-m-d H:i:s",time()-900);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
-        if($this->PageIndex >= 10){
+        if($this->PageIndex >=25){
             $this->finish = false;
             return;
         }
