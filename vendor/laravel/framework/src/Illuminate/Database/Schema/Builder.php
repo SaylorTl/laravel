@@ -34,7 +34,7 @@ class Builder
      *
      * @var int
      */
-    public static $defaultStringLength = 255;
+    public static $defaultStringLength = 50;
 
     /**
      * Create a new database Schema manager.
