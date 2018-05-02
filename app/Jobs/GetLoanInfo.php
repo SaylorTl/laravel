@@ -118,7 +118,7 @@ class GetLoanInfo implements ShouldQueue
         }
 
         //待还金额不能太大
-        if($owing>22000){
+        if($owing>23000){
             pp_log('负债太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
             return 0;
         }
