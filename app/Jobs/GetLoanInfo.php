@@ -232,10 +232,6 @@ class GetLoanInfo implements ShouldQueue
             } else{
                 $owinglimit += 1000;
             }
-            if ($loaninfo['VideoValidate'] == 1 || $loaninfo['NciicIdentityCheck'] == 1) {
-                // 视频认证或者户籍认证
-                $owinglimit += 1000;
-            }
             if ($loaninfo['CreditValidate'] == 1) {
                 $owinglimit += 2000; // 人行信用认证
             }
