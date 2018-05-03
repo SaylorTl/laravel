@@ -59,14 +59,14 @@ class Ppdai extends Command
         //定时清理缓存
         $nowRecodeTime = time();
         $lastRecodeTime = $this->cache->get("lastRecodeTime") ;
-        if($nowRecodeTime - $lastRecodeTime >3600){
+        if($nowRecodeTime - $lastRecodeTime >900){
             $this->cache->set("lastRecodeTime",$nowRecodeTime);
         }
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
-        if($this->PageIndex >=30){
+        if($this->PageIndex >=10){
             $this->finish = false;
             return;
         }
