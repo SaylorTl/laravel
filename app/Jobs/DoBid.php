@@ -50,7 +50,10 @@ class DoBid implements ShouldQueue
             pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
             pp_bid_log('开始投标',$bv['ListingId'],$bv['CreditCode']);
             $request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
-            $result = json_decode($this->client->send($url, $request,30),true);
+            pp_bid_log('开始投标',$request,$bv['CreditCode']);
+            $json = $this->client->send($url, $request,30);
+            pp_bid_log('开始投标',$json,$bv['CreditCode']);
+            $result = json_decode($json,true);
             if($result['Result']!= 0){
                 pp_bid_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
                 pp_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
