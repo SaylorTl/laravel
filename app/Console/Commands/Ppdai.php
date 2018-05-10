@@ -45,8 +45,8 @@ class Ppdai extends Command
     {
         do{
             pp_log("查询第". $this->PageIndex."页\n",0);
-            $this->PageIndex ++;
             $this->getLoanList();
+            $this->PageIndex ++;
             sleep(10);
        //     $this->dispatchNow((new GetLoanList())->onQueue('loanlist'));
        //     sleep(10);//等待时间，进行下一次操作。
@@ -66,7 +66,7 @@ class Ppdai extends Command
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
-        if($this->PageIndex >=2){
+        if($this->PageIndex >2){
             $this->finish = false;
             return;
         }
