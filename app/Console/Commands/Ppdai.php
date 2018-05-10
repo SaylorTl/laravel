@@ -17,7 +17,7 @@ class Ppdai extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:ppdai';
 
     /**
      * The console command description.
