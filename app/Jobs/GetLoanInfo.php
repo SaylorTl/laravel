@@ -93,7 +93,7 @@ class GetLoanInfo implements ShouldQueue
         $owing = $loaninfo['Amount'] + $loaninfo['OwingAmount'];
         $owingRatio =$this-> getOwingRatio($loaninfo);
         //以前分别是5.5 和 0.85
-        if($loaninfo['HighestDebt']>=13000 && ($owingRatio>1)){
+        if($loaninfo['HighestDebt']>=12000 && ($owingRatio>1)){
             pp_log('比历史最高负债高，有点怕怕~'.($loaninfo['Amount']+ $loaninfo['OwingAmount']).'/'.$loaninfo['HighestDebt'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
@@ -118,14 +118,14 @@ class GetLoanInfo implements ShouldQueue
         }
 
         //待还金额不能太大
-        if($owing>15000){
+        if($owing>13000){
             pp_log('负债太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
             return 0;
         }
 
         if($loaninfo['LastSuccessBorrowTime']){
             $time_off = time()-strtotime($loaninfo['LastSuccessBorrowTime']);
-            if( $time_off<1296000){
+            if( $time_off<2767680){
                 pp_log(" 30天之内不许重复贷款，刚借完又借的资金状况忒差了~淘汰",$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
