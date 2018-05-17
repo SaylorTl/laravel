@@ -146,6 +146,11 @@ class GetLoanInfo implements ShouldQueue
             return 0;
         };	//学历认证的占比1/3
 
+        if($loaninfo['TotalPrincipal']>0 && $loaninfo['TotalPrincipal']<5000){
+            pp_log('累计接待金额太小',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            return 0;	//累计借款数额太小不成
+        }
+
         //对于第一次借贷的必须是本科学历
         if($loaninfo['SuccessCount'] == 0){
             // || strpos($loaninfo['EducationDegree'],"本科") ==false
@@ -166,14 +171,14 @@ class GetLoanInfo implements ShouldQueue
             pp_log('30岁以上小额贷款问题比较大',$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
-        //以前设置成25，待还6000
-        if($loaninfo['NormalCount']<35 && $owing<=6000 && $loaninfo['Months']==6 && ($loaninfo['CreditCode'] == 'D'||$loaninfo['CreditCode'] == 'C')){
-            //还款记录较少的小额贷款
-            $loaninfo['Flag']="Little";
-            pp_log('还款记录较少',$loaninfo['ListingId'],$loaninfo['CreditCode']);
-            return 0;	//20的情况下出现的标很多
-        }
 
+        if($loaninfo['SuccessCount'] >1){
+            $r = ($loaninfo['OverdueLessCount']+$loaninfo['OverdueMoreCount'])/$loaninfo['NormalCount'];
+            if($r>0.3){
+                pp_log('新手标，信用太差',$loaninfo['ListingId']);
+                return 0;
+            }
+        }
         $owing = $loaninfo['Amount'] + $loaninfo['OwingAmount'];	//如果借款成功后的待还
         $strictflag=false;	//对与很好的标
         if($loaninfo['Months']==6 && ($loaninfo['CreditCode'] == 'D'||$loaninfo['CreditCode'] == 'C')){
