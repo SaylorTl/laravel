@@ -66,7 +66,6 @@ class Mppdai extends Command
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
-
         if(!$result){
             pp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
@@ -90,7 +89,7 @@ class Mppdai extends Command
         }
         foreach($result['LoanInfos'] as $key=>$value){
 //            if($value['Rate']<12|| $value['Months']>12){
-            if($value['Rate']<12|| $value['Months']>12){
+            if($value['Rate']<12|| $value['Months']>8){
                 continue;
             }
             if($this->cache->get("ppid".$value['ListingId'])){
