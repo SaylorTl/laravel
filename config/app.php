@@ -292,7 +292,9 @@ xj4IAZUuNKKMLu98dcX24rfBp9X53234PyCneQzXJ2Q9Xr0ehPJIe61tkiYkIdbv
 zJl7AnhoFTwEHtXP2QIDAQAB
 -----END PUBLIC KEY-----',
 
-    'accessToken' =>"d8fc5320-5f09-4dc0-a2ef-31883377b854",//我的
+    'accessToken' =>"92d73457-5284-4ce8-85df-400c4cbffdc8",//我的
     'refreshToken'=>"765d369d-336a-446b-b07a-74566be5cad9",
     'openID'=>"6a2bc1b9ac814eec97f1237d320c00aa"
 ];
+
+

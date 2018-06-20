@@ -16,7 +16,7 @@ class OpenapiClient{
 		return Http::SendAuthRequest ( $url, $request );
 	}
 
-	public function refresh_access_token() {
+	public function get_access_token() {
 		$this->cache  = new Predis\Client();
 		$accessToken = $this->cache->get("accessToken");
 		if(!$accessToken){
@@ -31,7 +31,7 @@ class OpenapiClient{
 				$data = json_decode($this->refresh_token($openID,$refreshToken),true);
 				$this->cache->setex("accessToken",518400,$data['AccessToken']);
 				$this->cache->setex("refreshToken",604800,$data['RefreshToken']);
-				$this->cache->setex("openID",604800,$data['OpenID']);
+				$this->cache->setex("openID",604800,config('app.openID'));
 				$accessToken = $data['AccessToken'];
 			}
 		}
@@ -66,7 +66,7 @@ class OpenapiClient{
 	 */
     public function send($url, $request,$time = 5) {
 		$appid = config('app.appid');
-		$accesstoken = $this->refresh_access_token();
+		$accesstoken = $this->get_access_token();
 		$appPrivateKey = config('app.appPrivateKey');
 		return Http::SendRequest ( $url, $request, $appid, $accesstoken,$time );
 	}
