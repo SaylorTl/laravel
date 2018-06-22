@@ -29,6 +29,7 @@ class OpenapiClient{
 			if(!$this->cache->get("accessToken")){
 				$refreshToken = $this->cache->get("refreshToken");
 				$data = json_decode($this->refresh_token($openID,$refreshToken),true);
+				print_r($data);exit;
 				$this->cache->setex("accessToken",518400,$data['AccessToken']);
 				$this->cache->setex("refreshToken",604800,$data['RefreshToken']);
 				$this->cache->setex("openID",604800,config('app.openID'));
