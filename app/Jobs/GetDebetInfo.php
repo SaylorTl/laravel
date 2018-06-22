@@ -42,6 +42,7 @@ class GetDebetInfo implements ShouldQueue
         $aviLoan = array_flip($aviLoan);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
+                (new DoDebet($aviLoan[$bv['ListingId']]))->dispatch($aviLoan[$bv['ListingId']])->onQueue("dobid");exit;
                 $this->cache->setex("DebId".$aviLoan[$bv['ListingId']],86400,1);
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){

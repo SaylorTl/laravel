@@ -42,8 +42,8 @@ class DoDebet implements ShouldQueue
     public function doBid($bv){
         if($bv){
             /*投标接口*/
-            if(!$this->cache->get("ppid".$bv['ListingId'])){
-                $this->cache->setex("ppid".$bv['ListingId'],86400,1);
+            if(!$this->cache->get("ppid".$bv)){
+                $this->cache->setex("ppid".$bv,86400,1);
             }
             $url = "https://openapi.ppdai.com/invest/BidService/BuyDebt";
             pp_log(" 债券".$bv."开始投标");
@@ -53,8 +53,8 @@ class DoDebet implements ShouldQueue
             $result = json_decode($json,true);
             debet_bid_log($json,$bv);
             if($result['Result']!= 0){
-                debet_bid_log("债转".$result['Result'].$result['ResultMessage'],$bv);
-                pp_log("债转".$result['Result'].$result['ResultMessage'],$bv);
+                debet_bid_log("债转".$result['Message'],$bv);
+                pp_log("债转".$result['Message'],$bv);
                 return;
             }
             debet_bid_log(" ".$bv."债转投标成功",$bv);
