@@ -68,7 +68,7 @@ class GetDebetInfo implements ShouldQueue
             debet_bid_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
-        if(!in_array($Debt['CreditCode'],array("AA","A","B","C"))){
+        if(!in_array($Debt['CurrentCreditCode'],array("AA","A","B","C"))){
             debet_bid_log("债转掉级太快",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
@@ -77,7 +77,7 @@ class GetDebetInfo implements ShouldQueue
             return false;
         }
         if($Debt['AllowanceRadio']<0){
-            debet_bid_log("债转折让比例",$debid,$Debt['CurrentCreditCode']);
+            debet_bid_log("债转折让比例太低",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
         return true;
