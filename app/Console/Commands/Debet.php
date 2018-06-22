@@ -64,19 +64,19 @@ class Debet extends Command
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'","Levels":"AA,A,B,C"}';
         $result = json_decode($this->client->send($url, $request,30),true);
-
+        
         if(!$result){
-            dbpp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if(empty($result['Result'])){
-            dbpp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if($result['Result'] !== 1){
-            dbpp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
