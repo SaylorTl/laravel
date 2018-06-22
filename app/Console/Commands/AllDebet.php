@@ -89,7 +89,7 @@ class AllDebet extends Command
             if($value['PriceforSale']>300 || $value['PriceforSaleRate']<12|| $value['OwingNumber']>8 || !in_array($value['CreditCode'],array("AA","A","B","C","D"))){
                 continue;
             }
-            if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=11){
+            if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=12){
                 dbpp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
                 $this->dispatch((new DoDebet($value))->onQueue('dobid'));
                 continue;

@@ -97,7 +97,7 @@ class Debet extends Command
             }
 
 
-            if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=11){
+            if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=12){
                 dbpp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
                 $this->dispatch((new DoDebet($value))->onQueue('dobid'));
                 continue;
