@@ -64,25 +64,26 @@ class Ppdai extends Command
         }
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
-        $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
-        $result = json_decode($this->client->send($url, $request,5),true);
         if($this->PageIndex >2){
             $this->finish = false;
             return;
         }
+        $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
+        $result = json_decode($this->client->send($url, $request,5),true);
+
 
         if(!$result){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if(empty($result['Result'])){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if($result['Result'] !== 1){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }

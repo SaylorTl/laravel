@@ -47,8 +47,6 @@ class AllDebet extends Command
             $this->getLoanList();
             $this->PageIndex ++;
             sleep(10);
-            //     $this->dispatchNow((new GetLoanList())->onQueue('loanlist'));
-            //     sleep(10);//等待时间，进行下一次操作。
         }while($this->finish);
     }
 
@@ -66,17 +64,17 @@ class AllDebet extends Command
         $result = json_decode($this->client->send($url, $request,30),true);
 
         if(!$result){
-            dbpp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if(empty($result['Result'])){
-            dbpp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if($result['Result'] !== 1){
-            dbpp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }

@@ -67,17 +67,17 @@ class Mppdai extends Command
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);
         if(!$result){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if(empty($result['Result'])){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
         if($result['Result'] !== 1){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result['Message']);
             $this->finish = false;
             return;
         }
