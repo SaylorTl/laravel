@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Predis;
 use App\libraries\OpenapiClient as OpenapiClient;
 use App\Jobs\GetDebetInfo;
-use App\Jobs\DoBid;
+use App\Jobs\DoDebet;
 
 
 class Debet extends Command

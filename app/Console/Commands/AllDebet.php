@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Predis;
 use App\libraries\OpenapiClient as OpenapiClient;
 use App\Jobs\GetDebetInfo;
-use App\Jobs\DoBid;
+use App\Jobs\DoDebet;
 
 
 class AllDebet extends Command
@@ -91,7 +91,7 @@ class AllDebet extends Command
             }
             if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=11){
                 dbpp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $this->dispatch((new DoBid($value))->onQueue('dobid'));
+                $this->dispatch((new DoDebet($value))->onQueue('dobid'));
                 continue;
             }
 
