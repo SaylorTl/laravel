@@ -38,7 +38,6 @@ class GetDebetInfo implements ShouldQueue
     public function handle()
     {
         $aviLoan = $this->aviList;
-        print_r($aviLoan);exit;
         $bidList =  $this->getLoanInfo($aviLoan);
         $aviLoan = array_flip($aviLoan);
         if(1 == $bidList['Result'] ){
@@ -61,24 +60,24 @@ class GetDebetInfo implements ShouldQueue
         $request = '{"DebtIds": ['.$debid.']}';
         $result = json_decode($this->client->send($url, $request,20),true);
         if($result['Result']!==1){
-            pp_log("获取债转信息详情失败".$result['ResultMessage']);
+            debet_bid_log("获取债转信息详情失败".$result['ResultMessage']);
             return false;
         }
         $Debt =  $result['DebtInfos'][0];
         if($Debt['PastDueNumber']>0){
-            pp_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
+            debet_bid_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
         if(!in_array($Debt['CreditCode'],array("AA","A","B","C"))){
-            pp_log("债转掉级太快",$debid,$Debt['CurrentCreditCode']);
+            debet_bid_log("债转掉级太快",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
         if($Debt['PastDueDay']>0){
-            pp_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
+            debet_bid_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
         if($Debt['AllowanceRadio']<0){
-            pp_log("债转折让比例",$debid,$Debt['CurrentCreditCode']);
+            debet_bid_log("债转折让比例",$debid,$Debt['CurrentCreditCode']);
             return false;
         }
         return true;
@@ -97,7 +96,7 @@ class GetDebetInfo implements ShouldQueue
         $result = json_decode($this->client->send($url, $request,20),true);
         sleep(5);
         if($result['Result']!==1){
-            pp_log("获取信息详情失败".$result['ResultMessage']);
+            dbpp_log("获取信息详情失败".$result['ResultMessage']);
             return array('Result'=>0);
         }
         return $result;
@@ -109,7 +108,7 @@ class GetDebetInfo implements ShouldQueue
         if($owinglimit<=0){
             return 0;
         }
-        $owing = $LoanInfo['Amount'] + $LoanInfo['OwingAmount'];
+        $owing =  $LoanInfo['OwingAmount'];
         $creditPerNorm = $owing;
 
         $bidAmount=0;	//预期投资的金额
@@ -122,56 +121,48 @@ class GetDebetInfo implements ShouldQueue
 
     /**flag为true表示是否计算其他人投标的影响*/
     public function getCreditLimit($loaninfo){
+
         //至少要认证身份证和电话
         if($loaninfo['PhoneValidate']==0){	//99%以上的都有手机验证
-            pp_log('无手机号',$loaninfo['ListingId']);
+            dbpp_log('无手机号',$loaninfo['ListingId']);
             return 0;
         }
-        $owing = $loaninfo['Amount'];
+        $owing = $loaninfo['OwingAmount'];
         $owingRatio =$this-> getOwingRatio($loaninfo);
         //以前分别是5.5 和 0.85
         if($loaninfo['HighestDebt']>=12000 && ($owingRatio>1)){
-            pp_log('债转比历史最高负债高，有点怕怕~'.($loaninfo['Amount']+ $loaninfo['OwingAmount']).'/'.$loaninfo['HighestDebt'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
+
+            dbpp_log('债转比历史最高负债高，有点怕怕~'.($owing).'/'.$loaninfo['HighestDebt'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         //设置一个比较大的数(缺省没有信用)
         if($loaninfo['NormalCount']>0) $creditPerNorm = $owing/$loaninfo['NormalCount'];	//每次正常还款对应的id
         //投资期限设置,下面这行总保留,防止错误
         //if(loan.month>=12) return 0;	 //12个月不投，只投6个月
-        //单笔金额不能太大
-        if($loaninfo['Amount']>config('app.AmountLimit')){
-            pp_log('债转单笔金额不能太大,'.$loaninfo['Amount'],$loaninfo['ListingId']);
-            return 0;
-        }
         //待还金额不能太大
-        if($loaninfo['OwingAmount']>config('app.OwingAmountLimit')){
-            pp_log('债转待还金额不能太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
+        if($owing>config('app.OwingAmountLimit')){
+            dbpp_log('债转待还金额不能太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
             return 0;
         }
 
-        //待还金额不能太大
-        if($owing>13000){
-            pp_log('债转负债太大,'.$loaninfo['OwingAmount'],$loaninfo['ListingId']);
-            return 0;
-        }
         //有超期还款记录的
         if($loaninfo['OverdueMoreCount']>0){
-            pp_log('债转有超期还款记录,'.$loaninfo['OverdueMoreCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            dbpp_log('债转有超期还款记录,'.$loaninfo['OverdueMoreCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         //超过3次的直接过掉，后面有更严格的要求
         if($loaninfo['OverdueLessCount']>5){
-            pp_log('债转逾期(1-15)还清次数大于5,'.$loaninfo['OverdueLessCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            dbpp_log('债转逾期(1-15)还清次数大于5,'.$loaninfo['OverdueLessCount'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         //学历的情况
         if($loaninfo['CertificateValidate']==0){
-            pp_log('债转未完成学历认证',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            dbpp_log('债转未完成学历认证',$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         };	//学历认证的占比1/3
 
         if($loaninfo['TotalPrincipal']>0 && $loaninfo['TotalPrincipal']<5000){
-            pp_log('债转累计接待金额太小',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            dbpp_log('债转累计接待金额太小',$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;	//累计借款数额太小不成
         }
 
@@ -179,7 +170,7 @@ class GetDebetInfo implements ShouldQueue
         if($loaninfo['SuccessCount'] == 0){
             // || strpos($loaninfo['EducationDegree'],"本科") ==false
             if (!($loaninfo['StudyStyle']=="普通" ||$loaninfo['StudyStyle']=="普通全日制")) {
-                pp_log('债转第一次借贷非全日制学历，淘汰',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+                dbpp_log('债转第一次借贷非全日制学历，淘汰',$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
         }
@@ -188,22 +179,22 @@ class GetDebetInfo implements ShouldQueue
         //系统中年龄分布和性别的分布好像关系不大
         //***根据自己的黑名单统计30岁以上借款小额的问题比较大(原来是不能大于32岁）
         if($loaninfo['Age']<22 || $loaninfo['Age']>=38){
-            pp_log('债转年龄不符合要求,'.$loaninfo['Age'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            dbpp_log('债转年龄不符合要求,'.$loaninfo['Age'],$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
         if($loaninfo['Age']>=32 && $owing<=5000){
-            pp_log('债转30岁以上小额贷款问题比较大',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+            dbpp_log('债转30岁以上小额贷款问题比较大',$loaninfo['ListingId'],$loaninfo['CreditCode']);
             return 0;
         }
 
         if($loaninfo['SuccessCount'] >1){
             $r = ($loaninfo['OverdueLessCount']+$loaninfo['OverdueMoreCount'])/$loaninfo['NormalCount'];
             if($r>0.3){
-                pp_log('债转新手标，信用太差',$loaninfo['ListingId']);
+                dbpp_log('债转新手标，信用太差',$loaninfo['ListingId']);
                 return 0;
             }
         }
-        $owing = $loaninfo['Amount'] + $loaninfo['OwingAmount'];	//如果借款成功后的待还
+        $owing = $loaninfo['OwingAmount'];	//如果借款成功后的待还
         $strictflag=false;	//对与很好的标
         if($loaninfo['Months']==6 && ($loaninfo['CreditCode'] == 'D'||$loaninfo['CreditCode'] == 'C')){
             if($loaninfo['NormalCount']>45 && $owing<6500) $strictflag=true;
@@ -221,22 +212,22 @@ class GetDebetInfo implements ShouldQueue
             }
             if($overdueflag){
                 //对于逾期一次的
-                pp_log('债转逾期淘汰',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+                dbpp_log('债转逾期淘汰',$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;
             }
         }
         if(config('app.NoWasteCountFlag')){
             //不允许有流标和撤标的情况
             if($loaninfo['FailedCount']>0 || (!$strictflag && $loaninfo['FailedCount']==1)){
-                pp_log('债转不容许有流标和撤标的情况',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+                dbpp_log('债转不容许有流标和撤标的情况',$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;//失败
             }
 //            if($loaninfo['CancelCount']>0 || (!$strictflag && $loaninfo['CancelCount']==1)){
-//                pp_log('不容许有流标和撤标的情况',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+//                dbpp_log('不容许有流标和撤标的情况',$loaninfo['ListingId'],$loaninfo['CreditCode']);
 //                return 0;	//撤销
 //            }
             if($loaninfo['WasteCount']>0 || (!$strictflag && $loaninfo['WasteCount']==1)){
-                pp_log('债转不容许有流标和撤标的情况',$loaninfo['ListingId'],$loaninfo['CreditCode']);
+                dbpp_log('债转不容许有流标和撤标的情况',$loaninfo['ListingId'],$loaninfo['CreditCode']);
                 return 0;	 //流标
             }
         }
@@ -294,7 +285,7 @@ class GetDebetInfo implements ShouldQueue
     /**欠款与最高欠款比例*/
     public function getOwingRatio($loaninfo){
         $owingRatio = 0;
-        if($loaninfo['HighestDebt']>0) $owingRatio= ($loaninfo['Amount']+ $loaninfo['OwingAmount'])/$loaninfo['HighestDebt'];
+        if($loaninfo['HighestDebt']>0) $owingRatio= ($loaninfo['OwingAmount'])/$loaninfo['HighestDebt'];
         return $owingRatio;
     }
     /**回款次数比例*/

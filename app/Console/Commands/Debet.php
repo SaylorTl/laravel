@@ -43,7 +43,7 @@ class Debet extends Command
     public function handle()
     {
         do{
-            pp_log("查询第". $this->PageIndex."页\n",0);
+            dbpp_log("查询第". $this->PageIndex."页\n",0);
             $this->getLoanList();
             $this->PageIndex ++;
             sleep(10);
@@ -66,23 +66,23 @@ class Debet extends Command
         $result = json_decode($this->client->send($url, $request,30),true);
 
         if(!$result){
-            pp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
         }
         if(empty($result['Result'])){
-            pp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
         }
         if($result['Result'] !== 1){
-            pp_log("查询失败：".$result['ResultMessage']);
+            dbpp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
         }
 
         if(empty($result['DebtInfos'])){
-            pp_log('查询结果为空','123');
+            dbpp_log('查询结果为空','123');
             $this->finish = false;
             return;
         }
@@ -94,8 +94,8 @@ class Debet extends Command
 
 
             if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=11){
-                pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $this->dispatch((new DoBid($value))->onQueue('dobid'));
+                dbpp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
+                $this->dispatch((new DoDebet($value))->onQueue('dobid'));
                 continue;
             }
 
@@ -111,7 +111,7 @@ class Debet extends Command
 //        print_r($aviLoan);
         if(!$aviLoan){
 //            print_r(21312);
-            pp_log("筛选出符合条件标的为空",00);
+            dbpp_log("筛选出符合条件标的为空",00);
             return;
         }
         $temp = array();
