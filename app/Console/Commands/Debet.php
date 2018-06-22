@@ -63,7 +63,7 @@ class Debet extends Command
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/DebtListNew";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'","Levels":"AA,A,B,C"}';
-        $result = json_decode($this->client->send($url, $request,30),true);
+        $result = json_decode($this->client->send($url, $request,3),true);
 
         if(!$result){
             dbpp_log("查询失败：".$result['ResultMessage']);
