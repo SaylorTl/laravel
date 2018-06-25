@@ -69,7 +69,7 @@ class Ppdai extends Command
             $this->finish = false;
             return;
         }
-        $result = json_decode($this->client->send($url, $request,5),true);
+        $result = json_decode($this->client->send($url, $request,3),true);
 
 
         if(!$result){

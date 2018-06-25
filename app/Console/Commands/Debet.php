@@ -67,7 +67,7 @@ class Debet extends Command
             return;
         }
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'","Levels":"AA,A,B,C"}';
-        $result = json_decode($this->client->send($url, $request,30),true);
+        $result = json_decode($this->client->send($url, $request,3),true);
 
         if(!$result){
             dbpp_log("查询失败：".$result['Message']);
