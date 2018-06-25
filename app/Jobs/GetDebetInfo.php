@@ -58,7 +58,7 @@ class GetDebetInfo implements ShouldQueue
         /*新版散标详情批量接口（请求列表不大于10）*/
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchDebtInfos";
         $request = '{"DebtIds": ['.$debid.']}';
-        $result = json_decode($this->client->send($url, $request,20),true);
+        $result = json_decode($this->client->send($url, $request,3),true);
         if($result['Result']!==1){
             debet_bid_log("获取债转信息详情失败".$result['ResultMessage']);
             return false;
@@ -93,7 +93,7 @@ class GetDebetInfo implements ShouldQueue
         $aviLoanStr = implode(",",$aviLoan);
 
         $request = '{"ListingIds": ['.$aviLoanStr.']}';
-        $result = json_decode($this->client->send($url, $request,20),true);
+        $result = json_decode($this->client->send($url, $request,3),true);
         sleep(5);
         if($result['Result']!==1){
             debet_bid_log(json_encode($result));
