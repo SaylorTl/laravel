@@ -29,7 +29,7 @@ class Mppdai extends Command
     var $cache;
     var $client;
     var $finish = true;
-    var $PageIndex =1;
+    var $PageIndex =3;
     public function __construct()
     {
         parent::__construct();
