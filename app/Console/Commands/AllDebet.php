@@ -61,6 +61,10 @@ class AllDebet extends Command
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/DebtListNew";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","Levels":"AA,A,B,C"}';
+        if($this->PageIndex >30){
+            $this->finish = false;
+            return;
+        }
         $result = json_decode($this->client->send($url, $request,30),true);
 
         if(!$result){
