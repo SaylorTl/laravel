@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 
-class Ppdai extends Command
+class Clear extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:function';
+    protected $signature = 'command:Clear';
 
     /**
      * The console command description.
