@@ -65,6 +65,7 @@ class OpenapiClient{
 
 
 	public function doDebet($bv){
+		$this->cache  = new Predis\Client();
 		if($bv){
 			/*投标接口*/
 			if(!$this->cache->get("ppid".$bv)){
@@ -74,7 +75,7 @@ class OpenapiClient{
 			pp_log(" 债券".$bv."开始投标");
 			debet_bid_log('债券开始投标');
 			$request = '{"debtDealId": '.$bv.'}';
-			$json = $this->client->send($url, $request,30);
+			$json = $this->send($url, $request,30);
 			$result = json_decode($json,true);
 			debet_bid_log($json,$bv);
 			if($result['Result']!= 0){
