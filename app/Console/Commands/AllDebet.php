@@ -116,7 +116,7 @@ class AllDebet extends Command
         foreach($aviLoan as $k=>$v){
             $temp[$k]=$v;
             if( count($temp)== 9 || (count($aviLoan)<=9 && count($temp)==count($aviLoan))){
-                $this->dispatch((new GetDebetInfo($temp))->onQueue('debetInfo'));
+                $this->dispatch((new GetDebetInfo($temp))->onQueue('loaninfo'));
                 $temp = array();
             }
         }
