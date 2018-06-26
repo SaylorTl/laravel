@@ -48,7 +48,8 @@ class GetDebetInfo implements ShouldQueue
                     debet_bid_log('债转第一轮筛选成功',$bv['ListingId'],$bv['CreditCode']);
                     if($this->getDebetInfo($aviLoan[$bv['ListingId']])){
                         debet_bid_log('债转第二轮筛选成功',$bv['ListingId'],$bv['CreditCode']);
-                        (new DoDebet($aviLoan[$bv['ListingId']]))->dispatch($aviLoan[$bv['ListingId']])->onQueue("dobid");
+                        $this->client->doDebet($aviLoan[$bv['ListingId']]);
+//                        (new DoDebet($aviLoan[$bv['ListingId']]))->dispatch($aviLoan[$bv['ListingId']])->onQueue("dobid");
                     };
                 }
             }
@@ -295,4 +296,5 @@ class GetDebetInfo implements ShouldQueue
         if($loaninfo['SuccessCount']>0) $repayRatio= $loaninfo['NormalCount']/$loaninfo['SuccessCount'];
         return $repayRatio;
     }
+
 }

@@ -39,7 +39,7 @@ class DoDebet implements ShouldQueue
         $this->doBid($this->bv);
     }
 
-    public function doBid($bv){
+    public function doDebet($bv){
         if($bv){
             /*投标接口*/
             if(!$this->cache->get("ppid".$bv)){

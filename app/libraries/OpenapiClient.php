@@ -29,7 +29,6 @@ class OpenapiClient{
 			if(!$this->cache->get("accessToken")){
 				$refreshToken = $this->cache->get("refreshToken");
 				$data = json_decode($this->refresh_token($openID,$refreshToken),true);
-				print_r($data);exit;
 				$this->cache->setex("accessToken",518400,$data['AccessToken']);
 				$this->cache->setex("refreshToken",604800,$data['RefreshToken']);
 				$this->cache->setex("openID",604800,config('app.openID'));
@@ -37,6 +36,54 @@ class OpenapiClient{
 			}
 		}
 		return $accessToken;
+	}
+
+
+	public function doBid($bv){
+		$this->cache  = new Predis\Client();
+		if($bv){
+			/*投标接口*/
+			if(!$this->cache->get("ppid".$bv['ListingId'])){
+				$this->cache->setex("ppid".$bv['ListingId'],86400,1);
+			}
+			$url = "https://openapi.ppdai.com/invest/BidService/Bidding";
+			pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
+			pp_bid_log('开始投标',$bv['ListingId'],$bv['CreditCode']);
+			$request = '{"ListingId": '.$bv['ListingId'].',"Amount": 50,"UseCoupon":"true"}';
+			$json = $this->send($url, $request,30);
+			$result = json_decode($json,true);
+			pp_bid_log($json,$result['ListingId']);
+			if($result['Result']!= 0){
+				pp_bid_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
+				pp_log($result['Result'].$result['ResultMessage'],$result['ListingId']);
+				return;
+			}
+			pp_log(" ".$bv['CreditCode']."级标的投资成功",$bv['ListingId']);
+			pp_bid_log(" ".$bv['CreditCode']."级标的投资成功",$bv['ListingId']);
+		}
+	}
+
+
+	public function doDebet($bv){
+		if($bv){
+			/*投标接口*/
+			if(!$this->cache->get("ppid".$bv)){
+				$this->cache->setex("ppid".$bv,86400,1);
+			}
+			$url = "https://openapi.ppdai.com/invest/BidService/BuyDebt";
+			pp_log(" 债券".$bv."开始投标");
+			debet_bid_log('债券开始投标');
+			$request = '{"debtDealId": '.$bv.'}';
+			$json = $this->client->send($url, $request,30);
+			$result = json_decode($json,true);
+			debet_bid_log($json,$bv);
+			if($result['Result']!= 0){
+				debet_bid_log("债转".$result['ResultMessage'],$bv);
+				pp_log("债转".$result['ResultMessage'],$bv);
+				return;
+			}
+			debet_bid_log(" ".$bv."债转投标成功",$bv);
+		}
 	}
 
 	/**
