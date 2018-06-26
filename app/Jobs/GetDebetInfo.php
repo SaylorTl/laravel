@@ -97,7 +97,7 @@ class GetDebetInfo implements ShouldQueue
         sleep(5);
         if($result['Result']!==1){
             debet_bid_log(json_encode($result));
-            dbpp_log("获取信息详情失败".$result['Message']);
+            dbpp_log("获取信息详情失败".$result['ResultMessage']);
             return array('Result'=>0);
         }
         return $result;

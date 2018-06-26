@@ -68,17 +68,17 @@ class AllDebet extends Command
         $result = json_decode($this->client->send($url, $request,30),true);
 
         if(!$result){
-            dbpp_log("查询失败：".$result['Message']);
+            dbpp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
         }
         if(empty($result['Result'])){
-            dbpp_log("查询失败：".$result['Message']);
+            dbpp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
         }
         if($result['Result'] !== 1){
-            dbpp_log("查询失败：".$result['Message']);
+            dbpp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;
             return;
         }
