@@ -59,7 +59,6 @@ class GetLoanInfo implements ShouldQueue
         $aviLoanStr = implode(",",$aviLoan);
         $request = '{"ListingIds": ['.$aviLoanStr.']}';
         $result = json_decode($this->client->send($url, $request,3),true);
-        sleep(5);
         if($result['Result']!==1){
             pp_log("获取信息详情失败".$result['ResultMessage']);
             return array('Result'=>0);
