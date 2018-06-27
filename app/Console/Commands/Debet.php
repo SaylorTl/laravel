@@ -98,7 +98,7 @@ class Debet extends Command
 
             if($value['CreditCode'] == 'AA' && $value['PriceforSaleRate']>=12){
                 dbpp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
-                $this->client->doDebet($value);
+                $this->client->doDebet($value,$value['ListingId']);
 //                $this->dispatch((new DoDebet($value))->onQueue('dobid'));
                 continue;
             }
@@ -107,7 +107,7 @@ class Debet extends Command
             if($value['PriceforSale']>50 || $value['PriceforSaleRate']<20){
                 continue;
             }
-            if($this->cache->get("DebId".$value['DebtdealId'])){
+            if($this->cache->get("ppid".$value['ListingId'])){
                 continue;
             }
             $aviLoan[$value['DebtdealId']]=$value['ListingId'];

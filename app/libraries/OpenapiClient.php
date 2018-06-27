@@ -64,12 +64,12 @@ class OpenapiClient{
 	}
 
 
-	public function doDebet($bv){
+	public function doDebet($bv,$ListingId){
 		$this->cache  = new Predis\Client();
 		if($bv){
 			/*投标接口*/
-			if(!$this->cache->get("ppid".$bv)){
-				$this->cache->setex("ppid".$bv,86400,1);
+			if(!$this->cache->get("ppid".$ListingId)){
+				$this->cache->setex("ppid".$ListingId,86400,1);
 			}
 			$url = "https://openapi.ppdai.com/invest/BidService/BuyDebt";
 			pp_log(" 债券".$bv."开始投标");
