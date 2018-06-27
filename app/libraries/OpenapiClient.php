@@ -44,7 +44,7 @@ class OpenapiClient{
 		if($bv){
 			/*投标接口*/
 			if(!$this->cache->get("ppid".$bv['ListingId'])){
-				$this->cache->setex("ppid".$bv['ListingId'],86400,1);
+				$this->cache->setex("ppid".$bv['ListingId'],3600,1);
 			}
 			$url = "https://openapi.ppdai.com/invest/BidService/Bidding";
 			pp_log(" ".$bv['CreditCode']."开始投标",$bv['ListingId']);
@@ -69,7 +69,7 @@ class OpenapiClient{
 		if($bv){
 			/*投标接口*/
 			if(!$this->cache->get("ppid".$ListingId)){
-				$this->cache->setex("ppid".$ListingId,86400,1);
+				$this->cache->setex("ppid".$ListingId,3600,1);
 			}
 			$url = "https://openapi.ppdai.com/invest/BidService/BuyDebt";
 			pp_log(" 债券".$bv."开始投标");

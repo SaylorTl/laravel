@@ -42,7 +42,7 @@ class GetDebetInfo implements ShouldQueue
         $aviLoan = array_flip($aviLoan);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
-                $this->cache->setex("ppid".$bv['ListingId'],86400,1);
+                $this->cache->setex("ppid".$bv['ListingId'],3600,1);
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
                     debet_bid_log('债转第一轮筛选成功',$bv['ListingId'],$bv['CreditCode']);

@@ -41,7 +41,7 @@ class GetLoanInfo implements ShouldQueue
         $bidList =  $this->getLoanInfo($this->aviList);
         if(1 == $bidList['Result'] ){
             foreach($bidList['LoanInfos'] as $bk=>$bv){
-                $this->cache->setex("ppid".$bv['ListingId'],86400,1);
+                $this->cache->setex("ppid".$bv['ListingId'],3600,1);
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
                     pp_bid_log('筛选成功',$bv['ListingId'],$bv['CreditCode']);
