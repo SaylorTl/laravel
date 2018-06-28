@@ -42,14 +42,14 @@ class Debet extends Command
      */
     public function handle()
     {
-        do{
-            dbpp_log("查询第". $this->PageIndex."页\n",0);
+//        do{
+//            dbpp_log("查询第". $this->PageIndex."页\n",0);
             $this->getLoanList();
-            $this->PageIndex ++;
-            sleep(3);
-            //     $this->dispatchNow((new GetLoanList())->onQueue('loanlist'));
-            //     sleep(10);//等待时间，进行下一次操作。
-        }while($this->finish);
+//            $this->PageIndex ++;
+//            sleep(3);
+//            //     $this->dispatchNow((new GetLoanList())->onQueue('loanlist'));
+//            //     sleep(10);//等待时间，进行下一次操作。
+//        }while($this->finish);
     }
 
     /*新版投标列表接口（默认每页200条）*/
@@ -58,10 +58,10 @@ class Debet extends Command
         $nowRecodeTime = time();
         $url = "https://openapi.ppdai.com/invest/LLoanInfoService/DebtListNew";
         $date = date("Y-m-d H:i:s",time()-3600);
-        if($this->PageIndex >2){
-            $this->finish = false;
-            return;
-        }
+//        if($this->PageIndex >2){
+//            $this->finish = false;
+//            return;
+//        }
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'","Levels":"AA,A,B,C"}';
         $result = json_decode($this->client->send($url, $request,3),true);
 
