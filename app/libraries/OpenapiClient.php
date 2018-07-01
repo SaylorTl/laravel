@@ -79,11 +79,11 @@ class OpenapiClient{
 			$result = json_decode($json,true);
 			debet_bid_log($json,$bv);
 			if($result['Result']!= 0){
-				debet_bid_log("债转".$result['ResultMessage'],$bv);
-				pp_log("债转".$result['ResultMessage'],$bv);
+				debet_bid_log("债转".$result['ResultMessage'],$ListingId);
+				pp_log("债转".$result['ResultMessage'],$ListingId);
 				return;
 			}
-			debet_bid_log(" ".$bv."债转投标成功",$bv);
+			debet_bid_log(" ".$bv."债转投标成功",$ListingId);
 		}
 	}
 

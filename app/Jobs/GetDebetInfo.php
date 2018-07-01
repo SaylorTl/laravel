@@ -46,10 +46,12 @@ class GetDebetInfo implements ShouldQueue
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
                     debet_bid_log('债转第一轮筛选成功',$bv['ListingId'],$bv['CreditCode']);
-                    if($this->getDebetInfo($aviLoan[$bv['ListingId']])){
+                    $debetId = $aviLoan[$bv['ListingId']];
+                    print_r($debetId);
+                    if($this->getDebetInfo($debetId)){
 
                         debet_bid_log('债转第二轮筛选成功',$bv['ListingId'],$bv['CreditCode']);
-                        $this->client->doDebet($aviLoan[$bv['ListingId']],$bv['ListingId']);
+                        $this->client->doDebet($debetId,$bv['ListingId']);
 //                        (new DoDebet($aviLoan[$bv['ListingId']]))->dispatch($aviLoan[$bv['ListingId']])->onQueue("dobid");
                     };
                 }
