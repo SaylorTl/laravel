@@ -72,8 +72,9 @@ class OpenapiClient{
 				$this->cache->setex("ppid".$ListingId,3600,1);
 			}
 			$url = "https://openapi.ppdai.com/invest/BidService/BuyDebt";
-			pp_log(" 债券".$ListingId."开始投标");
 			debet_bid_log('债券开始投标');
+			pp_log(" 债券".$bv."开始投标");
+			debet_bid_log($bv.'债券开始投标');
 			$request = '{"debtDealId": '.$bv.'}';
 			$json = $this->send($url, $request,30);
 			$result = json_decode($json,true);
