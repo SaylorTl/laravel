@@ -50,8 +50,8 @@ class DoDebet implements ShouldQueue
             debet_bid_log('债券开始投标');
             $request = '{"debtDealId": '.$bv.'}';
             $json = $this->client->send($url, $request,30);
-            $result = json_decode($json,true);
             debet_bid_log($json,$bv);
+            $result = json_decode($json,true);
             if($result['Result']!= 0){
                 debet_bid_log("债转".$result['ResultMessage'],$bv);
                 pp_log("债转".$result['ResultMessage'],$bv);
