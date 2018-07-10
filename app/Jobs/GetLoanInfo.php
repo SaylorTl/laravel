@@ -44,7 +44,6 @@ class GetLoanInfo implements ShouldQueue
                 $this->cache->setex("ppid".$bv['ListingId'],3600,1);
                 $amount = $this->getBidAmount($bv);
                 if($amount >0){
-                    pp_bid_log('筛选成功',$bv['ListingId'],$bv['CreditCode']);
                     $this->client->doBid($bv);
 //                    (new DoBid($bv))->dispatch($bv)->onQueue("dobid");
                 }

@@ -93,7 +93,6 @@ class Mppdai extends Command
                 continue;
             }
             if($value['CreditCode'] == 'AA' && $value['Rate']>=11){
-                pp_log(" ".$value['CreditCode']."快捷投标开始投标",$value['ListingId']);
                 $this->client->doBid($value);
 //                $this->dispatch((new DoBid($value))->onQueue('dobid'));
                 continue;
