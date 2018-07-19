@@ -88,7 +88,7 @@ class Debet extends Command
         }
         $aviLoan = array();
         foreach($result['DebtInfos'] as $key=>$value){
-            if($value['PriceforSale']>300 || $value['PriceforSaleRate']<12|| $value['OwingNumber']>8 || !in_array($value['CreditCode'],array("AA","A","B","C","D"))){
+            if($value['PriceforSale']>300 || $value['PriceforSaleRate']<12|| $value['OwingNumber']>4 || !in_array($value['CreditCode'],array("AA","A","B","C","D"))){
                 continue;
             }
 
