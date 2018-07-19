@@ -88,7 +88,7 @@ class Debet extends Command
         }
         $aviLoan = array();
         foreach($result['DebtInfos'] as $key=>$value){
-            if($value['PriceforSale']>300 || $value['PriceforSaleRate']<12|| $value['OwingNumber']>4 || !in_array($value['CreditCode'],array("AA","A","B","C","D"))){
+            if($value['PriceforSale']>300 || $value['PriceforSaleRate']<12|| $value['OwingNumber']>6 || !in_array($value['CreditCode'],array("AA","A","B","C","D"))){
                 continue;
             }
 
@@ -99,7 +99,7 @@ class Debet extends Command
             }
 
             //非陪标再筛选一次
-            if($value['PriceforSale']>50 || $value['PriceforSaleRate']<20){
+            if($value['PriceforSale']>50 || $value['PriceforSaleRate']<20 ||$value['OwingNumber']>4){
                 continue;
             }
             if($this->cache->get("ppid".$value['ListingId'])){
