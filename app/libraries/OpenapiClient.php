@@ -69,7 +69,7 @@ class OpenapiClient{
 			if(!$this->cache->get("ppid".$ListingId)){
 				$this->cache->setex("ppid".$ListingId,3600,1);
 			}
-			$url = "https://openapi.ppdai.com/invest/BidService/BuyDebt";
+			$url = "https://openapi.ppdai.com/debt/openapi/buy";
 			$request = '{"debtDealId": '.$bv.'}';
 			$json = $this->send($url, $request,30);
 			$result = json_decode($json,true);

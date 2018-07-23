@@ -58,7 +58,7 @@ class Ppdai extends Command
     public function getLoanList(){
         //定时清理缓存
         $nowRecodeTime = time();
-        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
+        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/loanList";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         if($this->PageIndex >2){
