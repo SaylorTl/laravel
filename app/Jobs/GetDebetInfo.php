@@ -56,7 +56,7 @@ class GetDebetInfo implements ShouldQueue
     }
     public function getDebetInfo($debid){
         /*新版散标详情批量接口（请求列表不大于10）*/
-        $url = "https://openapi.ppdai.com/debt/openapiNoAuth/batchDebtInfo";
+        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchDebtInfos";
         $request = '{"DebtIds": ['.$debid.']}';
         $result = json_decode($this->client->send($url, $request,3),true);
         if($result['Result']!==1){
@@ -89,7 +89,7 @@ class GetDebetInfo implements ShouldQueue
     public function getLoanInfo($aviLoan){
 
         /*新版散标详情批量接口（请求列表不大于10）*/
-        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/batchListingInfo";
+        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchListingInfos";
         $aviLoanStr = implode(",",$aviLoan);
 
         $request = '{"ListingIds": ['.$aviLoanStr.']}';

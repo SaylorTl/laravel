@@ -58,7 +58,7 @@ class Mppdai extends Command
     public function getLoanList(){
         //定时清理缓存
         $nowRecodeTime = time();
-        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/loanList";
+        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         $result = json_decode($this->client->send($url, $request,30),true);

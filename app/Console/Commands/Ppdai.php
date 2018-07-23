@@ -58,7 +58,7 @@ class Ppdai extends Command
     public function getLoanList(){
         //定时清理缓存
         $nowRecodeTime = time();
-        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/loanList";
+        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/LoanList";
         $date = date("Y-m-d H:i:s",time()-3600);
         $request = '{"PageIndex":"'.$this->PageIndex.'","StartDateTime": "'.$date.'"}';
         if($this->PageIndex >2){
@@ -66,7 +66,7 @@ class Ppdai extends Command
             return;
         }
         $result = json_decode($this->client->send($url, $request,3),true);
-        print_r($result);exit;
+
 
         if(!$result){
             pp_log("查询失败：".$result['ResultMessage']);
@@ -78,7 +78,6 @@ class Ppdai extends Command
             $this->finish = false;
             return;
         }
-        print_r($result);exit;
         if($result['Result'] !== 1){
             pp_log("查询失败：".$result['ResultMessage']);
             $this->finish = false;

@@ -54,7 +54,7 @@ class GetLoanInfo implements ShouldQueue
     /*获取投标详情*/
     public function getLoanInfo($aviLoan){
         /*新版散标详情批量接口（请求列表不大于10）*/
-        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/batchListingInfo";
+        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchListingInfos";
         $aviLoanStr = implode(",",$aviLoan);
         $request = '{"ListingIds": ['.$aviLoanStr.']}';
         $result = json_decode($this->client->send($url, $request,3),true);
