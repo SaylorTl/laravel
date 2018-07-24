@@ -73,7 +73,6 @@ class OpenapiClient{
 			$request = '{"debtDealId": '.$bv.'}';
 			$json = $this->send($url, $request,30);
 			$result = json_decode($json,true);
-			debet_bid_log($json,$bv);
 			if($result['Result']!= 0){
 				debet_bid_log("债转".$result['ResultMessage'],$ListingId);
 				pp_log("债转".$result['ResultMessage'],$ListingId);
