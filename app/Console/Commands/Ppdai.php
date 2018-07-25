@@ -73,7 +73,7 @@ class Ppdai extends Command
             return;
         }
         if(empty($result['Result'])){
-            pp_log("查询失败：".$result['message']);
+            pp_log("查询失败：".json_encode($result));
             $this->finish = false;
             return;
         }
