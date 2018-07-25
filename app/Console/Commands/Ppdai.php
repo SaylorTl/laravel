@@ -67,6 +67,7 @@ class Ppdai extends Command
         }
         $result = json_decode($this->client->send($url, $request,3),true);
 
+        print_r($result);exit;
 
         if(!$result){
             pp_log("查询失败：".$result['ResultMessage']);
@@ -74,7 +75,7 @@ class Ppdai extends Command
             return;
         }
         if(empty($result['Result'])){
-            pp_log("查询失败：".$result['ResultMessage']);
+            pp_log("查询失败：".$result);
             $this->finish = false;
             return;
         }
