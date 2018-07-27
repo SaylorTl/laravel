@@ -71,7 +71,7 @@ class Debet extends Command
             return;
         }
         if(empty($result['Result'])){
-            dbpp_log("查询失败：".$result['message']);
+            debet_bid_log("查询失败：".$result['message']);
             $this->finish = false;
             return;
         }
