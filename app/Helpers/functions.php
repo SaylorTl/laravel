@@ -8,10 +8,10 @@
 
 
  function pp_log($str,$bid=null,$creditcode=null){
-    $now = date("Y-m-d H:i:s");
-    echo "($now):".$creditcode."标号".$bid.$str."\n";
-    $day = date("Y-m-d");
-    file_put_contents(dirname(dirname(__DIR__))."/storage/logs/".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
+//    $now = date("Y-m-d H:i:s");
+//    echo "($now):".$creditcode."标号".$bid.$str."\n";
+//    $day = date("Y-m-d");
+//    file_put_contents(dirname(dirname(__DIR__))."/storage/logs/".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
 }
 
 function pp_bid_log($str,$bid=null,$creditcode=null){
@@ -29,10 +29,10 @@ function debet_bid_log($str,$bid=null,$creditcode=null){
 }
 
 function dbpp_log($str,$bid=null,$creditcode=null){
-    $now = date("Y-m-d H:i:s");
-    echo "($now):".$creditcode."标号".$bid.$str."\n";
-    $day = date("Y-m-d");
-    file_put_contents(dirname(dirname(__DIR__))."/storage/logs/debet_".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
+//    $now = date("Y-m-d H:i:s");
+//    echo "($now):".$creditcode."标号".$bid.$str."\n";
+//    $day = date("Y-m-d");
+//    file_put_contents(dirname(dirname(__DIR__))."/storage/logs/debet_".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
 }
 
 function clean_dir(){
