@@ -71,7 +71,7 @@ class Debet extends Command
             return;
         }
         if(empty($result['Result'])){
-            dbpp_log("查询失败：".$result['Message']);
+            dbpp_log("查询失败：".json_encode($result));
             $this->finish = false;
             return;
         }
