@@ -56,7 +56,7 @@ class Debet extends Command
     public function getLoanList(){
         //定时清理缓存
         $nowRecodeTime = time();
-        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/DebtListNew";
+        $url = "https://openapi.ppdai.com/debt/openapiNoAuth/buyList";
         $date = date("Y-m-d H:i:s",time()-3600);
 //        if($this->PageIndex >2){
 //            $this->finish = false;
