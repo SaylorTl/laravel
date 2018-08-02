@@ -55,20 +55,20 @@ class ppddebet extends Command
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
-//                if($this->cache->get("ppid".$value->ListingId)){
-//                    continue;
-//                }
-//                if($value->PriceforSale>300 || $value->PriceforSaleRate<12|| $value->OwingNumber>6 || !in_array($value->CreditCode,array("AA","A","B","C","D"))){
-//                    continue;
-//                }
-//                if ("AA" == $value->CreditCode) {
-//                    $invoker = new Invoker($value);
-//                    $invoker->debetAction();
-//                    continue;
-//                }
-//                if($value->PriceforSale > 50 || $value->PriceforSaleRate < 20 ||$value->OwingNumber>4){
-//                    continue;
-//                }
+                if($this->cache->get("ppid".$value->ListingId)){
+                    continue;
+                }
+                if($value->PriceforSale>300 || $value->PriceforSaleRate<12|| $value->OwingNumber>6 || !in_array($value->CreditCode,array("AA","A","B","C","D"))){
+                    continue;
+                }
+                if ("AA" == $value->CreditCode) {
+                    $invoker = new Invoker($value);
+                    $invoker->debetAction();
+                    continue;
+                }
+                if($value->PriceforSale > 50 || $value->PriceforSaleRate < 20 ||$value->OwingNumber>4){
+                    continue;
+                }
                 $aviLoan[$value->ListingId] = $value->DebtdealId;
             }
             if(!empty($aviLoan)){
