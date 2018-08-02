@@ -7,6 +7,7 @@ use Predis;
 use App\service\middleware\ConcreteBuilder;
 use App\service\requestmeta\Director;
 use App\service\requestmeta\Invoker;
+use App\Jobs\GetLoanInfo;
 
 
 class Ppd extends Command
