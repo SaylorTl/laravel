@@ -43,7 +43,6 @@ class GetLoanInfo implements ShouldQueue
      */
     public function handle()
     {
-<<<<<<< HEAD
         switch ($this->type) {
             case 'PPD_LOAN':
                 $this->loanDetail($this->aviList,$this->type);
@@ -51,34 +50,9 @@ class GetLoanInfo implements ShouldQueue
             case 'PPD_DEBET':
                 $this->debetDetail($this->aviList,$this->type);
                 break;
-=======
-
-        $bidList =  $this->getLoanInfo($this->aviList);
-        if(1 == $bidList['Result'] ){
-            foreach($bidList['LoanInfos'] as $bk=>$bv){
-                $this->cache->setex("ppid".$bv['ListingId'],3600,1);
-                $amount = $this->getBidAmount($bv);
-                if($amount >0){
-                    $this->client->doBid($bv);
-//                    (new DoBid($bv))->dispatch($bv)->onQueue("dobid");
-                }
-            }
         }
     }
 
-    /*获取投标详情*/
-    public function getLoanInfo($aviLoan){
-        /*新版散标详情批量接口（请求列表不大于10）*/
-        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/batchListingInfo";
-        $aviLoanStr = implode(",",$aviLoan);
-        $request = '{"ListingIds": ['.$aviLoanStr.']}';
-        $result = json_decode($this->client->send($url, $request,3),true);
-        if($result['Result']!==1){
-            pp_log("获取信息详情失败".$result['ResultMessage']);
-            return array('Result'=>0);
->>>>>>> 4f828adc173d4bce4837a435fbf317681389ee02
-        }
-    }
 
 
 
