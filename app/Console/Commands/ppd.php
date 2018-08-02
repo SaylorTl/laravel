@@ -62,10 +62,20 @@ class Ppd extends Command
                     $invoker->action();
                     continue;
                 }
-                    $aviLoan[] = $value->ListingId;
+                $aviLoan[] = $value->ListingId;
             }
+            $temp = array();
             if(!empty($aviLoan)){
-                $this->dispatch((new GetLoanInfo($aviLoan,$type))->onQueue('loaninfo'));
+                $k=0;
+                foreach ($aviLoan as  $v) {
+                    $k++;
+                    $temp [] = $v;
+                    if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan) - 1)) {
+                        $this->dispatch((new GetLoanInfo($aviLoan,$type))->onQueue('loaninfo'));
+                        $temp = array();
+                    }
+                }
+
             }
         }
     }

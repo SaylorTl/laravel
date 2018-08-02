@@ -60,26 +60,20 @@ class GetLoanInfo implements ShouldQueue
         if(empty($aviLoan)){
             exit();
         }
-        $temp = array();
-        foreach ($aviLoan as $k => $v) {
-            $temp[] = $v;
-            if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan) - 1)) {
-                $this->builder = new ConcreteBuilder();
-                $this->director = new Director($this->builder);
-                $this->director->ProductDetail($temp, $type);
-                $product = $this->builder->getResult();
-                if(!$product){
-                    continue;
-                }
-                foreach($product as $key=>$value){
-                    $this->cache->setex("ppid".$value->ListingId,3600,1);
-                    $invoker = new Invoker($value);
-                    $res = $invoker->check();
-                    if($res){
-                        $this->debetLoanDetail($value,'PPD_LOAN');
-                    }
-                }
-                $temp = array();
+
+        $this->builder = new ConcreteBuilder();
+        $this->director = new Director($this->builder);
+        $this->director->ProductDetail($aviLoan, $type);
+        $product = $this->builder->getResult();
+        if(!$product){
+            return;
+        }
+        foreach($product as $key=>$value){
+            $this->cache->setex("ppid".$value->ListingId,3600,1);
+            $invoker = new Invoker($value);
+            $res = $invoker->check();
+            if($res){
+                $this->debetLoanDetail($value,'PPD_LOAN');
             }
         }
     }
@@ -107,23 +101,17 @@ class GetLoanInfo implements ShouldQueue
         if(empty($aviLoan)){
             exit();
         }
-        foreach ($aviLoan as $k => $v) {
-            $temp[] = $v;
-            if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan) - 1)) {
-                continue;
-            }
-            $this->builder = new ConcreteBuilder();
-            $this->director = new Director($this->builder);
-            $this->director->ProductDetail($temp, $type);
-            $product = $this->builder->getResult();
-            if(!$product){
-                continue;
-            }
-            foreach($product as $key=>$value){
-                $this->cache->setex("ppid".$value->ListingId,3600,1);
-                $invoker = new Invoker($value);
-                $invoker->action();
-            }
+        $this->builder = new ConcreteBuilder();
+        $this->director = new Director($this->builder);
+        $this->director->ProductDetail($aviLoan, $type);
+        $product = $this->builder->getResult();
+        if(!$product){
+            return;
+        }
+        foreach($product as $key=>$value){
+            $this->cache->setex("ppid".$value->ListingId,3600,1);
+            $invoker = new Invoker($value);
+            $invoker->action();
         }
     }
 }
