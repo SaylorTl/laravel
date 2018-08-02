@@ -54,8 +54,6 @@ class GetLoanInfo implements ShouldQueue
     }
 
 
-
-
     //标的详情建造者
     public function debetDetail($aviLoan, $type)
     {
@@ -74,7 +72,7 @@ class GetLoanInfo implements ShouldQueue
                     continue;
                 }
                 foreach($product as $key=>$value){
-                    $this->cache->setex("ppid".$value['ListingId'],3600,1);
+                    $this->cache->setex("ppid".$value->ListingId,3600,1);
                     $rules = array('pastduenumber_too_big','currentcreditcode_too_low','pastdueday_too_much','allowanceradio_too_low');
                     $ok = ppValidate::validate($rules,$value);
                     if(true !==$ok){
@@ -82,7 +80,7 @@ class GetLoanInfo implements ShouldQueue
                     }
                     $this->debetLoanDetail($value,'PPD_LOAN');
                 }
-                return;
+                $temp = array();
             }
         }
     }
@@ -123,7 +121,7 @@ class GetLoanInfo implements ShouldQueue
                 continue;
             }
             foreach($product as $key=>$value){
-                $this->cache->setex("ppid".$value['ListingId'],3600,1);
+                $this->cache->setex("ppid".$value->ListingId,3600,1);
                 $invoker = new Invoker($value);
                 $invoker->action();
             }
