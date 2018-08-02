@@ -23,4 +23,7 @@ class Invoker { // 请求者角色
     public function debetAction() {
         $this->_command->debetExecute();
     }
+    public function check(){
+        return $this->_command->check();
+    }
 }

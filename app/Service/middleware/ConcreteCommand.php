@@ -79,6 +79,16 @@ class ConcreteCommand { // 具体命令方法
         }
     }
 
+    public function check(){
+        $rules = array('pastduenumber_too_big','currentcreditcode_too_low','pastdueday_too_much','allowanceradio_too_low');
+        $ok = ppValidate::validate($rules,$this->_repos);
+        if(true !== $ok){
+            $this->debet_bid_log($ok."债券过滤失败",$this->_repos->DebtId);
+            return false;
+        }
+        return $ok;
+    }
+
 
     public function pp_bid_log($str,$bid=null,$creditcode=null){
         $now = date("Y-m-d H:i:s");

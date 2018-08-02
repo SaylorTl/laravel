@@ -73,12 +73,11 @@ class GetLoanInfo implements ShouldQueue
                 }
                 foreach($product as $key=>$value){
                     $this->cache->setex("ppid".$value->ListingId,3600,1);
-                    $rules = array('pastduenumber_too_big','currentcreditcode_too_low','pastdueday_too_much','allowanceradio_too_low');
-                    $ok = ppValidate::validate($rules,$value);
-                    if(true !==$ok){
-                        continue;
+                    $invoker = new Invoker($value);
+                    $res = $invoker->check();
+                    if($res){
+                        $this->debetLoanDetail($value,'PPD_LOAN');
                     }
-                    $this->debetLoanDetail($value,'PPD_LOAN');
                 }
                 $temp = array();
             }
