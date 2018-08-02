@@ -66,7 +66,7 @@ class ppddebet extends Command
                     $invoker->debetAction();
                     continue;
                 }
-                if($value->PriceforSale > 50 || $value->PriceforSaleRate < 20 ||$value->OwingNumber>6){
+                if($value->PriceforSale > 50 || $value->PriceforSaleRate < 16){
                     continue;
                 }
                 $aviLoan[$value->ListingId] = $value->DebtdealId;
