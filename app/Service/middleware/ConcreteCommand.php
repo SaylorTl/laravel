@@ -43,7 +43,7 @@ class ConcreteCommand { // 具体命令方法
         }
         $result = $this->_receiver->doBid($this->_repos->ListingId);
         if($result){
-            $this->pp_bid_log($result);
+            $this->pp_bid_log("投标成功".json_decode($result));
         }
     }
 
@@ -77,7 +77,7 @@ class ConcreteCommand { // 具体命令方法
 
         $result = $this->_receiver->doDebet($this->_repos->DebtdealId);
         if($result){
-            $this->debet_bid_log("投标成功".$result);
+            $this->debet_bid_log("投标成功".json_decode($result));
         }
     }
 
