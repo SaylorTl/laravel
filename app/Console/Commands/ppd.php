@@ -71,7 +71,7 @@ class Ppd extends Command
                     $k++;
                     $temp [] = $v;
                     if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan) - 1)) {
-                        $this->dispatch((new GetLoanInfo($aviLoan,$type))->onQueue('loaninfo'));
+                        $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }
                 }
