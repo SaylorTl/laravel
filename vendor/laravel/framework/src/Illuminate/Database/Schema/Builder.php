@@ -34,7 +34,7 @@ class Builder
      *
      * @var int
      */
-    public static $defaultStringLength = 50;
+    public static $defaultStringLength = 255;
 
     /**
      * Create a new database Schema manager.
@@ -201,6 +201,18 @@ class Builder
     public function dropAllTables()
     {
         throw new LogicException('This database driver does not support dropping all tables.');
+    }
+
+    /**
+     * Drop all views from the database.
+     *
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function dropAllViews()
+    {
+        throw new LogicException('This database driver does not support dropping all views.');
     }
 
     /**
