@@ -67,15 +67,17 @@ class ConcreteCommand { // 具体命令方法
             "OverdueLessCount_check",
             "NoWasteCountFlag"
         ];
-        $ok = ppValidate::validate($rules,$this->_repos);
-        if(true !== $ok){
-            $this->debet_bid_log($ok."过滤失败",$this->_repos->DebtId);
-            return;
+        if("AA" !==$this->_repos->CreditCode){
+            $ok = ppValidate::validate($rules,$this->_repos);
+            if(true !== $ok){
+                $this->debet_bid_log($ok."过滤失败",$this->_repos->DebtdealId);
+                return;
+            }
         }
 
-        $result = $this->_receiver->doDebet($this->_repos->DebtId);
+        $result = $this->_receiver->doDebet($this->_repos->DebtdealId);
         if($result){
-            $this->debet_bid_log($result);
+            $this->debet_bid_log("投标成功".$result);
         }
     }
 

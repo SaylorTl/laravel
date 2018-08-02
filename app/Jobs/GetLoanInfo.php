@@ -95,7 +95,7 @@ class GetLoanInfo implements ShouldQueue
         $this->director->ProductDetail(array($aviLoan->ListingId), $type);
         $product = $this->builder->getResult();
         foreach($product as $key=>$value){
-            $value->DebtId = $aviLoan->DebtId;
+            $value->DebtdealId = $aviLoan->DebtId;
             $invoker = new Invoker($value);
             $invoker->debetAction();
         }

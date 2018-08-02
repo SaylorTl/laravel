@@ -57,15 +57,11 @@ class Instance
 
     public function doBid($ListingId){
         $this->repose = '{"ListingId": '.$ListingId.',"Amount": 50,"UseCoupon":"true"}';
-        return $this->repose;
-        exit();
         return $this->client->send($this->endpoint['bid'],$this->repose);
     }
 
     public function doDebet($DealId){
         $this->repose = '{"debtDealId": '.$DealId.'}';
-        return $this->repose;
-        exit();
         return $this->client->send($this->endpoint['doDebet'],$this->repose);
     }
 

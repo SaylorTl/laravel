@@ -58,7 +58,7 @@ class ppddebet extends Command
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
-                if($value->PriceforSale>300 || $value->PriceforSaleRate<12|| $value->OwingNumber>6 || !in_array($value->CreditCode,array("AA","A","B","C","D"))){
+                if($value->PriceforSale>300 || $value->PriceforSaleRate<11|| $value->OwingNumber>6 || !in_array($value->CreditCode,array("AA","A","B","C","D"))){
                     continue;
                 }
                 if ("AA" == $value->CreditCode) {
