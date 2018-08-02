@@ -50,11 +50,44 @@ class GetLoanInfo1 implements ShouldQueue
             }
         }
     }
+<<<<<<< HEAD:app/Jobs/GetLoanInfo1.php
+=======
+    public function getDebetInfo($debid){
+        /*新版散标详情批量接口（请求列表不大于10）*/
+        $url = "https://openapi.ppdai.com/debt/openapiNoAuth/batchDebtInfo";
+        $request = '{"DebtIds": ['.$debid.']}';
+        $result = json_decode($this->client->send($url, $request,3),true);
+        if($result['Result']!==1){
+            debet_bid_log("获取债转信息详情失败".$result['ResultMessage']);
+            return false;
+        }
+        $Debt =  $result['DebtInfos'][0];
+        if($Debt['PastDueNumber']>0){
+            debet_bid_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
+            return false;
+        }
+        if(!in_array($Debt['CurrentCreditCode'],array("AA","A","B","C"))){
+            debet_bid_log("债转掉级太快",$debid,$Debt['CurrentCreditCode']);
+            return false;
+        }
+        if($Debt['PastDueDay']>0){
+            debet_bid_log("债转有逾期记录",$debid,$Debt['CurrentCreditCode']);
+            return false;
+        }
+        if($Debt['AllowanceRadio']<0){
+            debet_bid_log("债转折让比例太低",$debid,$Debt['CurrentCreditCode']);
+            return false;
+        }
+        return true;
+
+
+    }
+>>>>>>> 4f828adc173d4bce4837a435fbf317681389ee02:app/Jobs/GetDebetInfo.php
 
     /*获取投标详情*/
     public function getLoanInfo($aviLoan){
         /*新版散标详情批量接口（请求列表不大于10）*/
-        $url = "https://openapi.ppdai.com/invest/LLoanInfoService/BatchListingInfos";
+        $url = "https://openapi.ppdai.com/listing/openapiNoAuth/batchListingInfo";
         $aviLoanStr = implode(",",$aviLoan);
         $request = '{"ListingIds": ['.$aviLoanStr.']}';
         $result = json_decode($this->client->send($url, $request,3),true);
