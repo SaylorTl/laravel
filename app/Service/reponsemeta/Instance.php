@@ -57,7 +57,7 @@ class Instance
 
     public function doBid($ListingId){
         $this->repose = '{"ListingId": '.$ListingId.',"Amount": 50,"UseCoupon":"true"}';
-        return $this->client->send($this->endpoint['bid'],$this->repose);
+        return $this->client->send($this->endpoint['doBid'],$this->repose);
     }
 
     public function doDebet($DealId){
