@@ -54,7 +54,10 @@ class Ppd extends Command
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
-                if ($value->Rate < 12 || $value-> Months > 6) {
+                if($this->cache->get("ppid".$value->ListingId)){
+                    continue;
+                }
+                if ($value->Rate < 16 || $value-> Months > 6) {
                     continue;
                 }
                 if ("AA" == $value->CreditCode) {
