@@ -48,7 +48,6 @@ class GetLoanInfo implements ShouldQueue
                 $this->loanDetail($this->aviList,$this->type);
                 break;
             case 'PPD_DEBET':
-                pp_bid_log(111);
                 $this->debetDetail($this->aviList,$this->type);
                 break;
         }
@@ -82,7 +81,6 @@ class GetLoanInfo implements ShouldQueue
     //标的详情建造者
     public function debetLoanDetail($aviLoan, $type)
     {
-        pp_bid_log(json_encode($aviLoan));
         if(empty($aviLoan)){
             exit();
         }
