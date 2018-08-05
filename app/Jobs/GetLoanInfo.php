@@ -105,6 +105,7 @@ class GetLoanInfo implements ShouldQueue
         $this->director = new Director($this->builder);
         $this->director->ProductDetail($aviLoan, $type);
         $product = $this->builder->getResult();
+        pp_bid_log("过滤失败",json_encode($product));
         if(!$product){
             return;
         }

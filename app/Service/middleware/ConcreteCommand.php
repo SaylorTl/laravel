@@ -70,7 +70,7 @@ class ConcreteCommand { // 具体命令方法
         if("AA" !==$this->_repos->CreditCode){
             $ok = ppValidate::validate($rules,$this->_repos);
             if(true !== $ok){
-                $this->debet_bid_log($ok."过滤失败",$this->_repos->DebtdealId);
+//                $this->debet_bid_log($ok."过滤失败",$this->_repos->DebtdealId);
                 return;
             }
         }
