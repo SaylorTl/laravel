@@ -51,6 +51,7 @@ class Ppd extends Command
         $type = $this->argument('type');
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
+        pp_bid_log("过滤失败",json_encode($product));
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
