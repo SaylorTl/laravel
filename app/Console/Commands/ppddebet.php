@@ -77,7 +77,7 @@ class ppddebet extends Command
                 foreach ($aviLoan as  $v) {
                     $k++;
                     $temp [] = $v;
-                    if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan) - 1)) {
+                    if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan))) {
                         $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }
