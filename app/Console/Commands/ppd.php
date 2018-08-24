@@ -71,11 +71,9 @@ class Ppd extends Command
             if(!empty($aviLoan)){
                 $k=0;
                 foreach ($aviLoan as  $v) {
-                    pp_bid_log("过滤失败",json_encode($v));
                     $k++;
                     $temp [] = $v;
                     if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan))) {
-                        pp_bid_log("过滤失败11",json_encode($temp));
                         $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }
