@@ -15,7 +15,7 @@ class Instance
         'base' => 'https://openapi.ppdai.com/',
         'loanList' => 'https://openapi.ppdai.com/listing/openapiNoAuth/loanList',
         'loanDetail' => 'https://openapi.ppdai.com/listing/openapiNoAuth/batchListingInfo',
-        'doBid' => 'https://openapi.ppdai.com/invest/BidService/Bidding',
+        'doBid' => 'https://openapi.ppdai.com/listing/openapi/bid',
         'debetList'=>'https://openapi.ppdai.com/debt/openapiNoAuth/buyList',
         'debetDetail'=>'https://openapi.ppdai.com/debt/openapiNoAuth/batchDebtInfo',
         'doDebet' => 'https://openapi.ppdai.com/debt/openapi/buy',
