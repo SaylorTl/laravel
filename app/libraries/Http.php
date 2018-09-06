@@ -56,9 +56,11 @@ class http{
         $result = curl_exec ( $curl );
         curl_close ($curl );
         $result = json_decode($result);
+        if(empty($result['Result'])){
+           pp_bid_log("投标异常".json_encode($result,true));
+        }
         return $result;
     }
-
 }
 
 
