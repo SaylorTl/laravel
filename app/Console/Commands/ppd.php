@@ -47,15 +47,12 @@ class Ppd extends Command
      */
     public function handle()
     {
-
-        pp_bid_log("正在投标".json_encode(2343242,true));
         $type = $this->argument('type');
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
-                pp_bid_log("正在投标".json_encode($value->ListingId,true));
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
