@@ -54,6 +54,7 @@ class Ppd extends Command
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
+                pp_bid_log("正在投标".json_encode($value->ListingId,true));
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
