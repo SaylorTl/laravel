@@ -25,11 +25,11 @@ class Product
     }
 
     public function addDebet($_item){
-        debet_bid_log("33".$_item);
         $this->_AAitem = array();
         debet_bid_log("33".$_item->Result);
         if(isset($_item->Result) && $_item->Result == 1){
             $part = $_item->DebtInfos;
+            debet_bid_log("33".json_encode($_item->DebtInfos));
             if(!empty($part)){
                 $this->_AAitem = $part;
                 return $this->_AAitem ;
