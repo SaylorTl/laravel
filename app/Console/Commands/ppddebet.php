@@ -56,7 +56,6 @@ class ppddebet extends Command
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
-                debet_bid_log($value->ListingId);
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
