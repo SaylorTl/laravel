@@ -47,7 +47,6 @@ class ConcreteBuilder
      }
 
      public function getResult() {
-         debet_bid_log(json_encode($this->_product->_AAitem));
           return $this->_product->_AAitem;
      }
 
