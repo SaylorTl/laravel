@@ -52,7 +52,6 @@ class ppddebet extends Command
         $type = $this->argument('type');
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
-        debet_bid_log("222".json_encode($product));
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
@@ -79,7 +78,6 @@ class ppddebet extends Command
                     $k++;
                     $temp [] = $v;
                     if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan))) {
-                        debet_bid_log("3333");
                         $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }
