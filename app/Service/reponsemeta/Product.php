@@ -28,7 +28,6 @@ class Product
         $this->_AAitem = array();
         if(isset($_item->Result) && $_item->Result == 1){
             $part = $_item->DebtInfos;
-            debet_bid_log("44".json_encode($_item->DebtInfos));
             if(!empty($part)){
                 $this->_AAitem = $part;
                 return $this->_AAitem ;
