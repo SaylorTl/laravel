@@ -56,7 +56,6 @@ class http{
         $result = curl_exec ( $curl );
         curl_close ($curl );
         $result = json_decode($result);
-        debet_bid_log("投标异常".json_encode($result));
         return $result;
     }
 }
