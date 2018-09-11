@@ -55,7 +55,7 @@ class http{
         curl_setopt($curl, CURLOPT_TIMEOUT, $time);
         $result = curl_exec ( $curl );
         curl_close ($curl );
-        $result = json_encode($result,true);
+        $result = json_decode($result,true);
         return $result;
     }
 }
