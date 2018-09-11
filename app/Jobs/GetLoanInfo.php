@@ -54,7 +54,7 @@ class GetLoanInfo implements ShouldQueue
     }
 
 
-    //标的详情建造者
+    //债转详情建造者
     public function debetDetail($aviLoan, $type)
     {
         if(empty($aviLoan)){
@@ -78,7 +78,7 @@ class GetLoanInfo implements ShouldQueue
         }
     }
 
-    //标的详情建造者
+    //债转标的详情建造者
     public function debetLoanDetail($aviLoan, $type)
     {
         if(empty($aviLoan)){
