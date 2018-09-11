@@ -34,7 +34,6 @@ class ConcreteBuilder
      }
      public function getDebetList(){
           $this->_item = $this->instance->getDebet();
-         debet_bid_log($this->_item);
           $this->_product->addDebet($this->_item);
      }
 
@@ -48,6 +47,7 @@ class ConcreteBuilder
      }
 
      public function getResult() {
+         debet_bid_log(json_encode($this->_product->_AAitem));
           return $this->_product->_AAitem;
      }
 

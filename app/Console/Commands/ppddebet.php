@@ -52,7 +52,7 @@ class ppddebet extends Command
         $type = $this->argument('type');
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
-        debet_bid_log(json_encode($product));
+        debet_bid_log("222".json_encode($product));
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
