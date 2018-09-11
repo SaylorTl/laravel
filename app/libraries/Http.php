@@ -44,7 +44,6 @@ class http{
         $header [] = 'X-PPD-TIMESTAMP-SIGN:' . $timestap_sign;
         $header [] = 'X-PPD-APPID:' . $appId;
         $header [] = 'X-PPD-SIGN:' . $request_sign;
-        debet_bid_log("12321");
         if ($accessToken!= null)
             $header [] = 'X-PPD-ACCESSTOKEN:' . $accessToken;
         curl_setopt ( $curl, CURLOPT_HTTPHEADER, $header );
@@ -57,9 +56,7 @@ class http{
         $result = curl_exec ( $curl );
         curl_close ($curl );
         $result = json_decode($result);
-        if(empty($result)){
-           pp_bid_log("投标异常".json_encode($result));
-        }
+        debet_bid_log("投标异常".json_encode($result));
         return $result;
     }
 }
