@@ -48,7 +48,6 @@ class ConcreteBuilder
      }
 
      public function getResult() {
-         debet_bid_log($this->_product->_AAitem);
           return $this->_product->_AAitem;
      }
 
