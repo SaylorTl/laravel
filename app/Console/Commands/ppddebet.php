@@ -49,12 +49,14 @@ class ppddebet extends Command
      */
     public function handle()
     {
+        debet_bid_log("2222");
         $type = $this->argument('type');
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {
+                debet_bid_log($value->ListingId);
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
@@ -78,7 +80,7 @@ class ppddebet extends Command
                     $k++;
                     $temp [] = $v;
                     if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan))) {
-                        debet_bid_log("23432");
+                        debet_bid_log("3333");
                         $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }
