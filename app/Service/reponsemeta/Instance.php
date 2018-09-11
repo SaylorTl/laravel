@@ -47,7 +47,6 @@ class Instance
     public function getDebet($PageIndex=1){
         $date = date("Y-m-d H:i:s",time()-3600);
         $this->repose = '{"PageIndex":"'.$PageIndex.'","StartDateTime": "'.$date.'"}';
-        debet_bid_log("12321".$this->endpoint['debetList']);
         return $this->client->send($this->endpoint['debetList'],$this->repose);
     }
 

@@ -50,10 +50,8 @@ class ppddebet extends Command
     public function handle()
     {
         $type = $this->argument('type');
-        debet_bid_log("12321".$type);
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
-        debet_bid_log("12321".json_encode($product));
         if($product){
             $aviLoan = array();
             foreach ($product as $key => $value) {

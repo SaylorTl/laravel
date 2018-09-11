@@ -44,6 +44,7 @@ class http{
         $header [] = 'X-PPD-TIMESTAMP-SIGN:' . $timestap_sign;
         $header [] = 'X-PPD-APPID:' . $appId;
         $header [] = 'X-PPD-SIGN:' . $request_sign;
+        debet_bid_log("12321".json_encode($header));
         if ($accessToken!= null)
             $header [] = 'X-PPD-ACCESSTOKEN:' . $accessToken;
         curl_setopt ( $curl, CURLOPT_HTTPHEADER, $header );
