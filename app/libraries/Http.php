@@ -58,7 +58,7 @@ class http{
         curl_close ($curl );
         $result = json_decode($result);
         if(empty($result['Result'])){
-           pp_bid_log("投标异常".json_encode($result,true));
+           pp_bid_log("投标异常".$result);
         }
         return $result;
     }
