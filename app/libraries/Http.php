@@ -44,7 +44,6 @@ class http{
         $header [] = 'X-PPD-TIMESTAMP-SIGN:' . $timestap_sign;
         $header [] = 'X-PPD-APPID:' . $appId;
         $header [] = 'X-PPD-SIGN:' . $request_sign;
-        debet_bid_log(json_encode($header));
         if ($accessToken!= null)
             $header [] = 'X-PPD-ACCESSTOKEN:' . $accessToken;
         curl_setopt ( $curl, CURLOPT_HTTPHEADER, $header );
@@ -55,6 +54,7 @@ class http{
         curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
         curl_setopt($curl, CURLOPT_TIMEOUT, $time);
         $result = curl_exec ( $curl );
+        debet_bid_log($result);
         curl_close ($curl );
         return $result;
     }
