@@ -56,8 +56,6 @@ class Ppd extends Command
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
-                pp_bid_log("aaa".json_encode($value,JSON_UNESCAPED_UNICODE ));
-
                 if ($value->Rate < 11 || $value-> Months > 6) {
                     continue;
                 }
