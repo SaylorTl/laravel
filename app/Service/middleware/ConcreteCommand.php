@@ -45,7 +45,7 @@ class ConcreteCommand { // 具体命令方法
         if($result->Result == 0){
             pp_log("投标成功".json_encode($result,true));
         }
-        pp_log($ok."投标失败",$this->_repos->ListingId);
+        pp_log($ok."投标失败".json_encode($result,true),$this->_repos->ListingId);
     }
 
     public function debetExecute() {
@@ -80,7 +80,7 @@ class ConcreteCommand { // 具体命令方法
         if($result->Result == 0){
             dbpp_log("投标成功".json_encode($result,true));
         }
-        dbpp_log($ok."投标失败",$this->_repos->DebtdealId);
+        dbpp_log($ok."投标失败".json_encode($result,true),$this->_repos->DebtdealId);
     }
 
     public function check(){
