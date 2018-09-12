@@ -68,13 +68,13 @@ class Ppd extends Command
             }
             $temp = array();
             if(!empty($aviLoan)){
-                pp_bid_log("获取标的详情失败".json_encode($aviLoan));
+                pp_bid_log("获取标的详情失败".json_encode($aviLoan,JSON_UNESCAPED_UNICODE ));
                 $k=0;
                 foreach ($aviLoan as  $v) {
                     $k++;
                     $temp [] = $v;
                     if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan))) {
-                        pp_bid_log("正在投标".json_encode($aviLoan,true));
+                        pp_bid_log("正在投标".json_encode($aviLoan,JSON_UNESCAPED_UNICODE ));
                         $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }

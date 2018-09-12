@@ -43,9 +43,9 @@ class ConcreteCommand { // 具体命令方法
         }
         $result = $this->_receiver->doBid($this->_repos->ListingId);
         if($result->Result == 0){
-            pp_log("投标成功".json_encode($result,true));
+            pp_log("投标成功".json_encode($result,JSON_UNESCAPED_UNICODE ));
         }
-        pp_log($ok."投标失败".json_encode($result,true),$this->_repos->ListingId);
+        pp_log($ok."投标失败".json_encode($result,JSON_UNESCAPED_UNICODE ),$this->_repos->ListingId);
     }
 
     public function debetExecute() {
@@ -78,9 +78,9 @@ class ConcreteCommand { // 具体命令方法
 
         $result = $this->_receiver->doDebet($this->_repos->DebtdealId);
         if($result->Result == 0){
-            dbpp_log("投标成功".json_encode($result,true));
+            dbpp_log("投标成功".json_encode($result,JSON_UNESCAPED_UNICODE ));
         }
-        dbpp_log($ok."投标失败".json_encode($result,true),$this->_repos->DebtdealId);
+        dbpp_log($ok."投标失败".json_encode($result,JSON_UNESCAPED_UNICODE ),$this->_repos->DebtdealId);
     }
 
     public function check(){

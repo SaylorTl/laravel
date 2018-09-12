@@ -46,7 +46,7 @@ class ConcreteBuilder
     public function getLoanDetail($product){
         $this->_item = $this->instance->getLoanDetail($product);
         if(!$this->_item){
-            pp_bid_log("获取标的详情失败".json_encode($product));
+            pp_bid_log("获取标的详情失败".json_encode($product,JSON_UNESCAPED_UNICODE ));
         }
 
         $this->_product->addLoanDetail($this->_item);
@@ -54,7 +54,7 @@ class ConcreteBuilder
     public function getDebetDetail($product){
         $this->_item = $this->instance->getDebetDetail($product);
         if(!$this->_item){
-            debet_bid_log("获取标的详情失败".json_encode($product));
+            debet_bid_log("获取标的详情失败".json_encode($product,JSON_UNESCAPED_UNICODE ));
         }
         $this->_product->addDebetDetail($this->_item);
     }
