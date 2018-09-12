@@ -47,7 +47,6 @@ class Ppd extends Command
      */
     public function handle()
     {
-        pp_bid_log("筛选12321");
         $type = $this->argument('type');
         $this->director->ProductList($type);
         $product = $this->builder->getResult();
