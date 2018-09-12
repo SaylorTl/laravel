@@ -31,14 +31,14 @@ class ConcreteBuilder
     public function getLoanList(){
         $this->_item = $this->instance->getLoanList();
         if(!$this->_item){
-            pp_bid_log("批量获取散标失败");
+            pp_bid_log("批量获取散标失败".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
         }
         $this->_product->addLoan($this->_item);
     }
     public function getDebetList(){
         $this->_item = $this->instance->getDebet();
         if(!$this->_item){
-            debet_bid_log("批量获取债转失败");
+            debet_bid_log("批量获取债转失败".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
         }
         $this->_product->addDebet($this->_item);
     }
@@ -46,7 +46,7 @@ class ConcreteBuilder
     public function getLoanDetail($product){
         $this->_item = $this->instance->getLoanDetail($product);
         if(!$this->_item){
-            pp_bid_log("获取标的详情失败".json_encode($product,JSON_UNESCAPED_UNICODE ));
+            pp_bid_log("获取标的详情失败".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
         }
 
         $this->_product->addLoanDetail($this->_item);
@@ -54,7 +54,7 @@ class ConcreteBuilder
     public function getDebetDetail($product){
         $this->_item = $this->instance->getDebetDetail($product);
         if(!$this->_item){
-            debet_bid_log("获取标的详情失败".json_encode($product,JSON_UNESCAPED_UNICODE ));
+            debet_bid_log("获取标的详情失败".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
         }
         $this->_product->addDebetDetail($this->_item);
     }
