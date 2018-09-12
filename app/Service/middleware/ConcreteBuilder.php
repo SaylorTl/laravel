@@ -58,12 +58,12 @@ class ConcreteBuilder
         $this->_item = $this->instance->getLoanDetail($product);
         if(!$this->_item){
             pp_bid_log("获取标的详情失败");
-            exit();
+            return;
         }
 
         if($this->_item->Result !=1){
             pp_bid_log("异常:标的详情".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
-            exit();
+            return;
         }
 
         $this->_product->addLoanDetail($this->_item);
@@ -72,12 +72,12 @@ class ConcreteBuilder
         $this->_item = $this->instance->getDebetDetail($product);
         if(!$this->_item){
             debet_bid_log("获取债转详情失败");
-            exit();
+            return;
         }
 
         if($this->_item->Result !=1){
             debet_bid_log("异常:债转详情".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
-            exit();
+            return;
         }
         $this->_product->addDebetDetail($this->_item);
     }
