@@ -60,13 +60,11 @@ class GetLoanInfo implements ShouldQueue
         if(empty($aviLoan)){
             exit();
         }
-        debet_bid_log("23432");
         $this->builder = new ConcreteBuilder();
         $this->director = new Director($this->builder);
         $this->director->ProductDetail($aviLoan, $type);
         $product = $this->builder->getResult();
 
-        debet_bid_log("投标成功".json_encode($product,true));
         if(!$product){
             return;
         }

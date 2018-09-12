@@ -14,41 +14,54 @@ use App\service\reponsemeta\Product;
 
 class ConcreteBuilder
 {
-     private  $instance;
-     const PPDAI_BID = 'PPDAI_BID';
-     const PPDAI_LOAN = 'PPDAI_LOAN';
-     const PPDAI_DEBET = 'PPDAI_DEBET';
-     const PPDAI_LOAN_LIST = 'PPDAI_LOAN_LIST';
-     const PPDAI_DEBET_LIST = 'PPDAI_DEBET_LIST';
-     private $_product;
+    private  $instance;
+    const PPDAI_BID = 'PPDAI_BID';
+    const PPDAI_LOAN = 'PPDAI_LOAN';
+    const PPDAI_DEBET = 'PPDAI_DEBET';
+    const PPDAI_LOAN_LIST = 'PPDAI_LOAN_LIST';
+    const PPDAI_DEBET_LIST = 'PPDAI_DEBET_LIST';
+    private $_product;
 
-     function __construct()
-     {
-          $this->instance = new Instance();
-          $this->_product = new Product();
-     }
+    function __construct()
+    {
+        $this->instance = new Instance();
+        $this->_product = new Product();
+    }
 
-     public function getLoanList(){
-          $this->_item = $this->instance->getLoanList();
-          $this->_product->addLoan($this->_item);
-     }
-     public function getDebetList(){
-          $this->_item = $this->instance->getDebet();
-          $this->_product->addDebet($this->_item);
-     }
+    public function getLoanList(){
+        $this->_item = $this->instance->getLoanList();
+        if(!$this->_item){
+            pp_bid_log("批量获取散标失败");
+        }
+        $this->_product->addLoan($this->_item);
+    }
+    public function getDebetList(){
+        $this->_item = $this->instance->getDebet();
+        if(!$this->_item){
+            debet_bid_log("批量获取债转失败");
+        }
+        $this->_product->addDebet($this->_item);
+    }
 
-     public function getLoanDetail($product){
-          $this->_item = $this->instance->getLoanDetail($product);
-          $this->_product->addLoanDetail($this->_item);
-     }
-     public function getDebetDetail($product){
-          $this->_item = $this->instance->getDebetDetail($product);
-          $this->_product->addDebetDetail($this->_item);
-     }
+    public function getLoanDetail($product){
+        $this->_item = $this->instance->getLoanDetail($product);
+        if(!$this->_item){
+            pp_bid_log("获取标的详情失败".json_encode($product));
+        }
 
-     public function getResult() {
-          return $this->_product->_AAitem;
-     }
+        $this->_product->addLoanDetail($this->_item);
+    }
+    public function getDebetDetail($product){
+        $this->_item = $this->instance->getDebetDetail($product);
+        if(!$this->_item){
+            debet_bid_log("获取标的详情失败".json_encode($product));
+        }
+        $this->_product->addDebetDetail($this->_item);
+    }
+
+    public function getResult() {
+        return $this->_product->_AAitem;
+    }
 
 
 }
