@@ -38,13 +38,14 @@ class ConcreteCommand { // 具体命令方法
         ];
         $ok = ppValidate::validate($rules,$this->_repos);
         if(true !== $ok){
-            $this->pp_bid_log($ok."过滤失败",$this->_repos->ListingId);
+            pp_bid_log($ok."过滤失败",$this->_repos->ListingId);
             return;
         }
         $result = $this->_receiver->doBid($this->_repos->ListingId);
-        if($result){
-            $this->pp_bid_log("投标成功".json_encode($result,true));
+        if($result->Result == 0){
+            pp_log("投标成功".json_encode($result,true));
         }
+        pp_log($ok."投标失败",$this->_repos->ListingId);
     }
 
     public function debetExecute() {
@@ -70,40 +71,27 @@ class ConcreteCommand { // 具体命令方法
         if("AA" !==$this->_repos->CreditCode){
             $ok = ppValidate::validate($rules,$this->_repos);
             if(true !== $ok){
-                $this->debet_bid_log($ok."过滤失败",$this->_repos->DebtdealId);
+                debet_bid_log($ok."过滤失败",$this->_repos->DebtdealId);
                 return;
             }
         }
 
         $result = $this->_receiver->doDebet($this->_repos->DebtdealId);
-        if($result){
-            $this->debet_bid_log("投标成功".json_encode($result,true));
+        if($result->Result == 0){
+            dbpp_log("投标成功".json_encode($result,true));
         }
+        dbpp_log($ok."投标失败",$this->_repos->DebtdealId);
     }
 
     public function check(){
         $rules = array('pastduenumber_too_big','currentcreditcode_too_low','pastdueday_too_much','allowanceradio_too_low');
         $ok = ppValidate::validate($rules,$this->_repos);
         if(true !== $ok){
-//            $this->debet_bid_log($ok."债券过滤失败",$this->_repos->DebtId);
+            debet_bid_log($ok."债券过滤失败",$this->_repos->DebtId);
             return false;
         }
         return $ok;
     }
 
-
-    public function pp_bid_log($str,$bid=null,$creditcode=null){
-        $now = date("Y-m-d H:i:s");
-        echo "($now):".$creditcode."标号".$bid.$str."\n";
-        $day = date("Y-m-d");
-        file_put_contents(dirname(dirname(dirname(__DIR__)))."/storage/logs/bid_".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
-    }
-
-    public function debet_bid_log($str,$bid=null,$creditcode=null){
-        $now = date("Y-m-d H:i:s");
-        echo "($now):".$creditcode."债券号".$bid.$str."\n";
-        $day = date("Y-m-d");
-        file_put_contents(dirname(dirname(dirname(__DIR__)))."/storage/logs/debet_bid".$day.".log","($now):".$creditcode."标号".$bid.$str."\n", FILE_APPEND);
-    }
 
 }
