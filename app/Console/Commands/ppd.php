@@ -56,7 +56,7 @@ class Ppd extends Command
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
-                if ($value->Rate < 16 || $value-> Months > 6) {
+                if ($value->Rate < 11 || $value-> Months > 6) {
                     continue;
                 }
                 if ("AA" == $value->CreditCode) {
@@ -68,7 +68,7 @@ class Ppd extends Command
             }
             $temp = array();
             if(!empty($aviLoan)){
-                pp_bid_log("获取标的详情失败".json_encode($aviLoan,JSON_UNESCAPED_UNICODE ));
+                pp_bid_log("获取标的详情".json_encode($aviLoan,JSON_UNESCAPED_UNICODE ));
                 $k=0;
                 foreach ($aviLoan as  $v) {
                     $k++;
