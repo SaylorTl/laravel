@@ -34,7 +34,7 @@ class ConcreteBuilder
             pp_bid_log("批量获取散标失败");
             exit();
         }
-        if($this->_item->Result !=1){
+        if(empty($this->_item->Result) || $this->_item->Result !=1){
             pp_bid_log("异常:散标列表".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
             exit();
         }
@@ -51,6 +51,7 @@ class ConcreteBuilder
             debet_bid_log("异常：债转列表".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
             exit();
         }
+
         $this->_product->addDebet($this->_item);
     }
 
