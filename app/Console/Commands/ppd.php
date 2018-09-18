@@ -59,7 +59,6 @@ class Ppd extends Command
                 if ($value->Rate < 11 || $value-> Months > 6) {
                     continue;
                 }
-                pp_bid_log("筛选".json_encode($value,JSON_UNESCAPED_UNICODE ));
                 if ("AA" == $value->CreditCode) {
                     $invoker = new Invoker($value);
                     $invoker->action();
@@ -74,7 +73,6 @@ class Ppd extends Command
                     $k++;
                     $temp [] = $v;
                     if (($k % 9 == 0 && $k >= 0) || (count($aviLoan) < 9 && $k == count($aviLoan))) {
-                        pp_bid_log("正在投标".json_encode($aviLoan,JSON_UNESCAPED_UNICODE ));
                         $this->dispatch((new GetLoanInfo($temp,$type))->onQueue('loaninfo'));
                         $temp = array();
                     }
