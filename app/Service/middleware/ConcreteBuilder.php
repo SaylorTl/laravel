@@ -47,7 +47,7 @@ class ConcreteBuilder
             exit();
         }
 
-        if($this->_item->Result !=1){
+        if(empty($this->_item->Result) ||$this->_item->Result !=1){
             debet_bid_log("异常：债转列表".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
             exit();
         }
@@ -62,7 +62,7 @@ class ConcreteBuilder
             return;
         }
 
-        if($this->_item->Result !=1){
+        if(empty($this->_item->Result) ||$this->_item->Result !=1){
             pp_bid_log("异常:标的详情".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
             return;
         }
@@ -76,7 +76,7 @@ class ConcreteBuilder
             return;
         }
 
-        if($this->_item->Result !=1){
+        if(empty($this->_item->Result) ||$this->_item->Result !=1){
             debet_bid_log("异常:债转详情".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
             return;
         }
