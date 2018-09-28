@@ -42,6 +42,15 @@ class ConcreteCommand { // 具体命令方法
             return;
         }
         $result = $this->_receiver->doBid($this->_repos->ListingId);
+        if(empty($result)){
+            pp_log("投标服务器无反应");
+            return;
+        }
+        if(empty($result->Result)){
+            pp_log("投标成功".json_encode($result,JSON_UNESCAPED_UNICODE ));
+            return;
+        }
+
         if($result->Result == 0){
             pp_log("投标成功".json_encode($result,JSON_UNESCAPED_UNICODE ));
             return;
@@ -78,6 +87,14 @@ class ConcreteCommand { // 具体命令方法
         }
 
         $result = $this->_receiver->doDebet($this->_repos->DebtdealId);
+        if(empty($result)){
+            dbpp_log("投标服务器无反应");
+            return;
+        }
+        if(empty($result->Result)){
+            dbpp_log("投标成功".json_encode($result,JSON_UNESCAPED_UNICODE ));
+            return;
+        }
         if($result->Result == 0){
             dbpp_log("投标成功".json_encode($result,JSON_UNESCAPED_UNICODE ));
             return;
