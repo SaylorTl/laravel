@@ -66,7 +66,6 @@ class ConcreteBuilder
             pp_bid_log("异常:标的详情".json_encode($this->_item,JSON_UNESCAPED_UNICODE ));
             return;
         }
-
         $this->_product->addLoanDetail($this->_item);
     }
     public function getDebetDetail($product){

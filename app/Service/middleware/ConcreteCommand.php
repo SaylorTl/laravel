@@ -3,6 +3,7 @@ namespace App\service\middleware;
 
 use App\libraries\ppValidate;
 use App\service\reponsemeta\Instance;
+use Predis;
 /**
  * Created by PhpStorm.
  * User: hodor-out
@@ -15,6 +16,7 @@ class ConcreteCommand { // 具体命令方法
     public function __construct(Instance $receiver,$value) {
         $this->_receiver = $receiver;
         $this->_repos = $value;
+        $this->cache  = new Predis\Client();
     }
     public function execute() {
         $rules = [
@@ -36,6 +38,9 @@ class ConcreteCommand { // 具体命令方法
             "OverdueLessCount_check",
             "NoWasteCountFlag"
         ];
+        if($this->cache->get("ppid".$this->_repos->ListingId)){
+            return;
+        }
         $ok = ppValidate::validate($rules,$this->_repos);
         if(true !== $ok){
             pp_bid_log($ok."过滤失败",$this->_repos->ListingId);
@@ -78,6 +83,10 @@ class ConcreteCommand { // 具体命令方法
             "OverdueLessCount_check",
             "NoWasteCountFlag"
         ];
+        if($this->cache->get("ppid".$this->_repos->ListingId)){
+            return;
+        }
+
         if("AA" !==$this->_repos->CreditCode){
             $ok = ppValidate::validate($rules,$this->_repos);
             if(true !== $ok){
