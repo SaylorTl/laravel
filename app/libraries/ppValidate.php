@@ -1,7 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Author: 杨尧 <yangyao@sailvan.com>
-// +----------------------------------------------------------------------
 
 namespace App\libraries;
 use Illuminate\Support\Facades\Config as LaravelConfig;
