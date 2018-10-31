@@ -17,6 +17,9 @@ class ppValidate
     }
 
     public static function rule_phone_not_avi($loan){
+        if(empty($loan->PhoneValidate)){
+            pp_log("投标成功".json_encode($loan,JSON_UNESCAPED_UNICODE ));
+        }
         if($loan->PhoneValidate == 0) return false;
         return true;
     }

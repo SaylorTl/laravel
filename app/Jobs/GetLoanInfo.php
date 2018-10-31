@@ -9,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\libraries\OpenapiClient as OpenapiClient;
 use Predis;
-use App\libraries\ppValidate;
 use App\service\middleware\ConcreteBuilder;
 use App\service\requestmeta\Director;
 use App\service\requestmeta\Invoker;
