@@ -41,10 +41,12 @@ class ConcreteCommand { // 具体命令方法
         if($this->cache->get("ppid".$this->_repos->ListingId)){
             return;
         }
-        $ok = ppValidate::validate($rules,$this->_repos);
-        if(true !== $ok){
-            pp_bid_log($ok."过滤失败",$this->_repos->ListingId);
-            return;
+        if("AA" != $this->_repos->CreditCode){
+            $ok = ppValidate::validate($rules,$this->_repos);
+            if(true !== $ok){
+                pp_bid_log($ok."过滤失败",$this->_repos->ListingId);
+                return;
+            }
         }
         $result = $this->_receiver->doBid($this->_repos->ListingId);
         if(empty($result)){
@@ -87,7 +89,7 @@ class ConcreteCommand { // 具体命令方法
             return;
         }
 
-        if("AA" !==$this->_repos->CreditCode){
+        if("AA" !=$this->_repos->CreditCode){
             $ok = ppValidate::validate($rules,$this->_repos);
             if(true !== $ok){
                 debet_bid_log($ok."过滤失败",$this->_repos->DebtdealId);
