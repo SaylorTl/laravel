@@ -56,7 +56,7 @@ class Ppd extends Command
                 if($this->cache->get("ppid".$value->ListingId)){
                     continue;
                 }
-                if ($value->Rate < 10 || $value-> Months > 6) {
+                if ($value->Rate <= 10 || $value-> Months > 6) {
                     continue;
                 }
                 if ("AA" == $value->CreditCode) {
