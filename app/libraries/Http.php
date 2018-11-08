@@ -46,13 +46,20 @@ class http{
         $header [] = 'X-PPD-SIGN:' . $request_sign;
         if ($accessToken!= null)
             $header [] = 'X-PPD-ACCESSTOKEN:' . $accessToken;
+//        curl_setopt ( $curl, CURLOPT_HTTPHEADER, $header );
+//        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+//        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt ( $curl, CURLOPT_POST, 1 );
+//        curl_setopt ( $curl, CURLOPT_POSTFIELDS, $request );
+//        curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+//        curl_setopt($curl, CURLOPT_TIMEOUT, $time);
+        
+
         curl_setopt ( $curl, CURLOPT_HTTPHEADER, $header );
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt ( $curl, CURLOPT_POST, 1 );
         curl_setopt ( $curl, CURLOPT_POSTFIELDS, $request );
         curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt($curl, CURLOPT_TIMEOUT, $time);
+        curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec ( $curl );
         curl_close ($curl );
         $result = json_decode($result);
